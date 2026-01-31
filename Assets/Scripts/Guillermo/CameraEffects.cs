@@ -55,7 +55,7 @@ public class CameraEffects : MonoBehaviour
 
     private float startColorStepsForDoorAnim;
 
-    public void ColorChangeDoor()
+    public void DoDoorAnimation()
     {
         if (doorColorFadeAnimating) return;
         doorColorFadeAnimating = true;
@@ -342,7 +342,7 @@ public class CameraEffects : MonoBehaviour
         timeForNextBlink -= Time.deltaTime;
         if (timeForNextBlink <= 0.0f)
         {
-            ColorChangeDoor();
+            DoDoorAnimation();
         }
 
         if (blinking && timeForNextBlink <= 0.0f && !doorColorFadeAnimating)
