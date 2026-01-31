@@ -8,6 +8,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Camera camera;
     [SerializeField] private GameObject player;
     private Transform player_tr;
+    public bool isFollowingPlayer = true;
 
     private void Awake()
     {
@@ -39,7 +40,7 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
-        if (player_tr && camera)
+        if (player_tr && camera && isFollowingPlayer)
         {
             camera.transform.LookAt(player_tr);
         }

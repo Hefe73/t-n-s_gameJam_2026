@@ -81,6 +81,28 @@ MonoBehaviour:
   scale:
     overrideState: 0
     value: 1
+--- !u!114 &-6271217139738561686
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: Unity.Postprocessing.Runtime::UnityEngine.Rendering.PostProcessing.MotionBlur
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  shutterAngle:
+    overrideState: 1
+    value: 270
+  sampleCount:
+    overrideState: 1
+    value: 10
 --- !u!114 &-6201147784468331829
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -108,7 +130,7 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.008
+    value: 0.054
   smoothness:
     overrideState: 1
     value: 1
@@ -181,6 +203,7 @@ MonoBehaviour:
   - {fileID: -8849278266053156868}
   - {fileID: -7720341220492711860}
   - {fileID: -3714097602701601047}
+  - {fileID: -6271217139738561686}
 --- !u!114 &2446519864166928305
 MonoBehaviour:
   m_ObjectHideFlags: 3

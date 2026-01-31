@@ -12,6 +12,12 @@ Shader "Unlit/FogShader"
 
         _ColorSteps ("Color Steps", Float) = 16
         _EnableQuantization ("Enable Quantization", Float) = 0
+
+        _Saturation ("Saturation", Range(0,1)) = 1
+
+        _PixelSizeX ("Pixel Size X", Float) = 320
+        _PixelSizeY ("Pixel Size Y", Float) = 180
+        _EnablePixelation ("Enable Pixelation", Float) = 1
     }
 
     SubShader
@@ -37,6 +43,12 @@ Shader "Unlit/FogShader"
 
             float _ColorSteps;
             float _EnableQuantization;
+
+            float _Saturation;
+
+            float _PixelSizeX;
+            float _PixelSizeY;
+            float _EnablePixelation;
 
             float4x4 _InverseViewProjection;
 
@@ -66,12 +78,33 @@ Shader "Unlit/FogShader"
                 return col;
             }
 
+            fixed4 ApplySaturation(fixed4 col, float saturation)
+            {
+                float gray = dot(col.rgb, float3(0.299, 0.587, 0.114));
+                col.rgb = lerp(gray, col.rgb, saturation);
+                return col;
+            }
+
+            float2 PixelateUV(float2 uv)
+            {
+                float2 pixelCount = float2(_PixelSizeX, _PixelSizeY);
+                return floor(uv * pixelCount) / pixelCount;
+            }
+
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                float2 uv = i.uv;
+
+                // ----- Pixelation -----
+                if (_EnablePixelation > 0.5)
+                {
+                    uv = PixelateUV(uv);
+                }
+
+                fixed4 col = tex2D(_MainTex, uv);
 
                 // ----- Depth -----
-                float rawDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
+                float rawDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv);
                 float linearDepth = LinearEyeDepth(rawDepth);
 
                 // ----- Distance fog -----
@@ -79,7 +112,7 @@ Shader "Unlit/FogShader"
 
                 // ----- World position reconstruction -----
                 float4 clipPos;
-                clipPos.xy = i.uv * 2.0 - 1.0;
+                clipPos.xy = uv * 2.0 - 1.0;
                 clipPos.z = rawDepth;
                 clipPos.w = 1.0;
 
@@ -89,16 +122,17 @@ Shader "Unlit/FogShader"
                 // ----- Height fog -----
                 float heightFog = saturate((_FogHeight - worldPos.y) * _FogHeightDensity);
 
-                // Combine fog (strongest wins)
                 float fogFactor = max(distFog, heightFog);
-
                 col.rgb = lerp(col.rgb, _FogColor.rgb, fogFactor);
 
-                // ----- Optional color quantization -----
+                // ----- Color quantization -----
                 if (_EnableQuantization > 0.5)
                 {
                     col = QuantizeColor(col, _ColorSteps);
                 }
+
+                // ----- Saturation -----
+                col = ApplySaturation(col, _Saturation);
 
                 return col;
             }
