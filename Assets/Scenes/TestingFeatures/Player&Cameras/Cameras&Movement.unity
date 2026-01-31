@@ -231,6 +231,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1107025877 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8246078893137547851, guid: 3efd39b08e70e2447b02c7c54b5dd8de, type: 3}
+  m_PrefabInstance: {fileID: 3379163757345254465}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1107025879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107025877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7f72cbb87c0d284da68c65b1921bd0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  Player: {fileID: 0}
+  speed: 5
+  h: 0
+  v: 0
 --- !u!1 &2083484559
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +357,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4305190902928591732, guid: 22f573de4877e1843aab8e3a149f2bbb, type: 3}
+      propertyPath: field of view
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 8039289483111426609, guid: 22f573de4877e1843aab8e3a149f2bbb, type: 3}
       propertyPath: m_Name
       value: FollowCamera
@@ -497,7 +522,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8246078893137547851, guid: 3efd39b08e70e2447b02c7c54b5dd8de, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1107025879}
   m_SourcePrefab: {fileID: 100100000, guid: 3efd39b08e70e2447b02c7c54b5dd8de, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
