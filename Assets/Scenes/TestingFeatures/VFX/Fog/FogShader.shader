@@ -15,8 +15,8 @@ Shader "Unlit/FogShader"
 
         _Saturation ("Saturation", Range(0,1)) = 1
 
-        _PixelSizeX ("Pixel Size X", Float) = 320
-        _PixelSizeY ("Pixel Size Y", Float) = 180
+        _PixelSizeX ("Pixel Size X", Float) = 420
+        _PixelSizeY ("Pixel Size Y", Float) = 280
         _EnablePixelation ("Enable Pixelation", Float) = 1
     }
 

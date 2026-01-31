@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class DoorsManagers : MonoBehaviour
@@ -5,17 +6,47 @@ public class DoorsManagers : MonoBehaviour
 
     [SerializeField] private string sceneName;
     [SerializeField] private bool imLobby;
-
-
+    public CameraEffects camEffects;
+    private bool alreadyDoingAnimation = false;
+    
     // Update is called once per frame
     void Update()
     {
-        
+        if (camEffects && camEffects.doorAnimationFinished)
+        {
+            alreadyDoingAnimation = false;
+            CameraManager cam = CameraManager.Instance;
+            cam.isFollowingPlayer = true;
+            if (imLobby)
+                SceneManager.LoadScene(GameLoopManager.Instance.RoomsNameList[GameLoopManager.Instance.patientsHealed]);
+            else
+                SceneManager.LoadScene(sceneName);
+        }
     }
+
+    private void Start()
+    {
+        if (!camEffects)
+        {
+            camEffects = FindFirstObjectByType<CameraEffects>();
+        }
+    }
+
     void OnTriggerEnter(Collider other) {
-        if(imLobby)
-            SceneManager.LoadScene(GameLoopManager.Instance.RoomsNameList[GameLoopManager.Instance.patientsHealed]);
+        if (camEffects && !alreadyDoingAnimation)
+        {
+            alreadyDoingAnimation = true;
+            camEffects.DoDoorAnimation();
+        }
         else
-            SceneManager.LoadScene(sceneName);
+        {
+            CameraManager cam = CameraManager.Instance;
+            cam.isFollowingPlayer = true;
+            if (imLobby)
+                SceneManager.LoadScene(GameLoopManager.Instance.RoomsNameList[GameLoopManager.Instance.patientsHealed]);
+            else
+                SceneManager.LoadScene(sceneName);
+            
+        }
     }
 }

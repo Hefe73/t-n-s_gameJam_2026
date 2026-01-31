@@ -34,7 +34,7 @@ public class CameraEffects : MonoBehaviour
     public bool doorColorFadeAnimating = false;
 
     [Header("Door Transition")] public Transform door_tr;
-
+    public bool doorAnimationFinished = false;
     public Transform door_hinge;
     public bool door_to_open = false;
     public float door_opening_duration = 1.0f;
@@ -194,6 +194,7 @@ public class CameraEffects : MonoBehaviour
 // Ensure final state is clean
         transform.position = door_tr.position;
         transform.rotation = q;
+        doorAnimationFinished = true;
     }
 
 
@@ -340,11 +341,12 @@ public class CameraEffects : MonoBehaviour
     {
         // Countdown to next blink
         timeForNextBlink -= Time.deltaTime;
+        /*
         if (timeForNextBlink <= 0.0f)
         {
-            DoDoorAnimation();
+            //DoDoorAnimation();
         }
-
+        */
         if (blinking && timeForNextBlink <= 0.0f && !doorColorFadeAnimating)
         {
             Blink();

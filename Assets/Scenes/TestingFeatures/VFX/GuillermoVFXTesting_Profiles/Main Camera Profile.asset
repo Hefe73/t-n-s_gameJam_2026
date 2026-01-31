@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: Unity.Postprocessing.Runtime::UnityEngine.Rendering.PostProcessing.Bloom
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   intensity:
     overrideState: 1
-    value: 0.21
+    value: 1.83
   threshold:
     overrideState: 1
     value: 0.97
@@ -130,10 +130,10 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.054
+    value: 0.1
   smoothness:
     overrideState: 1
-    value: 1
+    value: 0.29
   roundness:
     overrideState: 1
     value: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.039
+    value: 0.03
   fastMode:
     overrideState: 0
     value: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2.76
+    value: 1.37
   color:
     overrideState: 1
     value: {r: 0.120105766, g: 0.14150941, b: 0.10079208, a: 1}
