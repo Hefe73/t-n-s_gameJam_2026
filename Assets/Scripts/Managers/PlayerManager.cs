@@ -22,11 +22,7 @@ public class PlayerManager : MonoBehaviour
         Vector3 movement = new Vector3(h, 0f, v);
         transform.Translate(movement * speed * Time.deltaTime, Space.Self);
 
-        if (Input.GetKey(KeyCode.W))
-        Debug.Log("W pressed");
-
-        if (Input.GetKey(KeyCode.A))
-            Debug.Log("A pressed");
+  
         //transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 }
