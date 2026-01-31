@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameLoopManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class GameLoopManager : MonoBehaviour
 
     [SerializeField] public int patientsHealed;
     [SerializeField] public string[] RoomsNameList;
+    [SerializeField] public float GAS;
+
+    [SerializeField] Slider gas_slider;
 
     private void Awake()
     {
@@ -32,7 +36,7 @@ public class GameLoopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        gas_slider.value = GAS;
     }
 
     void PatientHealed(){
