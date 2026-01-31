@@ -272,6 +272,10 @@ public class CameraEffects : MonoBehaviour
         }
 
         SetTimeNextBlink();
+        
+        // TODO
+        // Search in all component children and set the fov of the camera in this component to the child components
+        
     }
 
 
