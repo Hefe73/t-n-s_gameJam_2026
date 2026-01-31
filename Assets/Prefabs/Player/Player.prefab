@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   Player: {fileID: 0}
-  speed: 5
+  speed: 2
   h: 0
   v: 0
 --- !u!54 &7561425908380772680
