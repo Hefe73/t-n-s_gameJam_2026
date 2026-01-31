@@ -18,10 +18,10 @@ EditorBuildSettings:
     path: Assets/Scenes/GameRooms/OperationRoom1.unity
     guid: f13b7d665c522d04787a090a0b3fd9d5
   - enabled: 1
-    path: Assets/Scenes/GameRooms/OperationRoom1 1.unity
+    path: Assets/Scenes/GameRooms/OperationRoom 2.unity
     guid: 4cbfeeb7579d55a49b9c036fe197cc7e
   - enabled: 1
-    path: Assets/Scenes/GameRooms/OperationRoom1 2.unity
+    path: Assets/Scenes/GameRooms/OperationRoom 5.unity
     guid: bcadabdf3b41f6543aad6497285cfdb3
   - enabled: 1
     path: Assets/Scenes/GameRooms/OperationRoom3.unity
