@@ -36,8 +36,14 @@ public class CustomInputManager : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
         {
-            menu_.SetActive(true);
-            ui_.SetActive(false);
+            if(menu_) menu_.SetActive(true);
+            if(ui_) ui_.SetActive(false);
+            Time.timeScale = 0;
         }
+    }
+
+    public void ExitMenu()
+    {
+        Time.timeScale = 1;
     }
 }
