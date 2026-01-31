@@ -4,6 +4,8 @@ public class DoorsManagers : MonoBehaviour
 {
 
     [SerializeField] private string sceneName;
+    [SerializeField] private bool imLobby;
+
 
     // Update is called once per frame
     void Update()
@@ -11,6 +13,9 @@ public class DoorsManagers : MonoBehaviour
         
     }
     void OnTriggerEnter(Collider other) {
-        SceneManager.LoadScene(sceneName);
+        if(imLobby)
+            SceneManager.LoadScene(GameLoopManager.Instance.RoomsNameList[GameLoopManager.Instance.patientsHealed]);
+        else
+            SceneManager.LoadScene(sceneName);
     }
 }

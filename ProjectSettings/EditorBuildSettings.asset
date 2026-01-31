@@ -17,6 +17,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameRooms/OperationRoom1.unity
     guid: f13b7d665c522d04787a090a0b3fd9d5
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/OperationRoom1 1.unity
+    guid: 4cbfeeb7579d55a49b9c036fe197cc7e
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/OperationRoom1 2.unity
+    guid: bcadabdf3b41f6543aad6497285cfdb3
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/OperationRoom3.unity
+    guid: 605599194aeaf954d93b77e1e1ffdeb3
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/OperationRoom4.unity
+    guid: 68ccac8d6a9336342b1a51ce63d33c77
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

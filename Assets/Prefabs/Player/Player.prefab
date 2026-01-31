@@ -160,10 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f72cbb87c0d284da68c65b1921bd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  Player: {fileID: 0}
+  cam: {fileID: 0}
   speed: 2
-  h: 0
-  v: 0
+  rotateSpeed: 10
 --- !u!54 &7561425908380772680
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -190,4 +189,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2

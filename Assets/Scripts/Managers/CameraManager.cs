@@ -1,12 +1,18 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraManager : MonoBehaviour
 {
+    public static CameraManager Instance { get; private set; }
 
-    public static CameraManager Instance {get; private set;}
+    [SerializeField] private Camera camera;
+    [SerializeField] private GameObject player;
+    private Transform player_tr;
 
-    private void Awake(){
-        if(Instance == null){
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
@@ -16,30 +22,35 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    //[SerializeField] private name cameraTarget;
-    [SerializeField] private Camera camera;
-    [SerializeField] private GameObject player;
-
-    [SerializeField] private Transform player_tr;
-    private Vector3 camera_rot;
-    void Start()
+    private void OnEnable()
     {
-        camera = GameObject.Find("FollowCamera").GetComponent<Camera>(); 
-        player = GameObject.FindGameObjectWithTag("Player");
-
-
-
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Update is called once per frame
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindCameraPlayer();
+    }
+
     void Update()
     {
-        if(player){
-
-            player_tr = player.transform;
+        if (player_tr && camera)
+        {
+            camera.transform.LookAt(player_tr);
         }
+    }
 
-        camera.transform.LookAt(player_tr);
+    public void FindCameraPlayer()
+    {
+        camera = GameObject.Find("FollowCamera")?.GetComponent<Camera>();
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+            player_tr = player.transform;
     }
 }
