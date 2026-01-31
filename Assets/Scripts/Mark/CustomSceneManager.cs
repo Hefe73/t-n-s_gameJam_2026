@@ -17,5 +17,6 @@ public class CustomSceneManager : MonoBehaviour
     public void LoadSceneByName(string name)
     {
         SceneManager.LoadScene(name);
+        Time.timeScale = 1;
     }
 }
