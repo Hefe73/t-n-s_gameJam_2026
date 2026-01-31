@@ -18,13 +18,18 @@ public class CleaningWound : MonoBehaviour
     [Range(0.01f, 0.25f)] public float cottonRadiusUV = 0.06f; 
     public float cottonHoverOffset = 0.01f; 
 
+    [Header("Visual placeholders")]
+    public GameObject stainQuadPrefab; 
+
     [System.Serializable]
     public class Stain
     {
         public Vector2 centerUV;
         public float radiusUV;
         public int passes;
-        public bool wasInside; 
+        public bool wasInside;
+        public GameObject visual;
+
         public bool IsClean(int req) => passes >= req;
     }
 
@@ -34,6 +39,7 @@ public class CleaningWound : MonoBehaviour
     {
         if (!cam) cam = Camera.main;
         GenerateStains();
+        SpawnStainVisuals();
     }
 
     void GenerateStains()
@@ -177,6 +183,31 @@ public class CleaningWound : MonoBehaviour
             Vector3 next = center + (axisA * Mathf.Cos(ang) + axisB * Mathf.Sin(ang)) * radius;
             Gizmos.DrawLine(prev, next);
             prev = next;
+        }
+    }
+
+    void SpawnStainVisuals()
+    {
+        if (!stainQuadPrefab || targetCollider == null) return;
+
+        Transform parent = targetCollider.transform;
+
+        foreach (var s in stains)
+        {
+            Vector3 localPos = new Vector3(
+                s.centerUV.x - 0.5f,
+                s.centerUV.y - 0.5f,
+                -0.5f
+            );
+
+            GameObject quad = Instantiate(stainQuadPrefab, parent);
+            quad.transform.localPosition = localPos + Vector3.forward * 0.001f;
+            quad.transform.localRotation = Quaternion.identity;
+
+            float size = s.radiusUV * 2f;
+            quad.transform.localScale = new Vector3(size, size, 1f);
+
+            s.visual = quad;
         }
     }
 
