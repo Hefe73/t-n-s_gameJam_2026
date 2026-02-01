@@ -1,8 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minigame3 : MonoBehaviour
+public class Minigame3 : MonoBehaviour, IMinigameStartable
 {
+    bool gameActive = false;
+
+    public void StartMinigame()
+    {
+        gameActive = true;
+    }
+    
     public Transform[] positions;
     public float errorFreedom = 0.5f;
     public float planeZ = 10f;
@@ -183,6 +190,9 @@ public class Minigame3 : MonoBehaviour
 
     void Update()
     {
+        if (!gameActive)
+            return;
+        
         if (Input.GetMouseButtonDown(0))
         {
             BuildPath();
