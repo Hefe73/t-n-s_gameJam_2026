@@ -429,7 +429,7 @@ MonoBehaviour:
   wormImage: {fileID: 21300000, guid: fc2fe27479d037e4c8f6840dde1090ab, type: 3}
   wormPrefab: {fileID: 1480460794132886839, guid: b377ed4ca1f52bc4aa6b63ee8800d2f2, type: 3}
   maxWorms: 5
-  timeLimit: 8
+  timeLimit: 2
   points:
   - {fileID: 1684902033}
   - {fileID: 1906742780}
