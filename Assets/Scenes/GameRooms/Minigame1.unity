@@ -2045,7 +2045,7 @@ MonoBehaviour:
   - {fileID: 967916950}
   - {fileID: 463606730}
   - {fileID: 1390914764}
-  wormOutSfx: {fileID: 0}
+  wormOutSfx: {fileID: 641465549}
   uiSoundPlayer: {fileID: 487754246}
 --- !u!4 &641465548
 Transform:
