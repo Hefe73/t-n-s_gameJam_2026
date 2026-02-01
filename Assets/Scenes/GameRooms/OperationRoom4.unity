@@ -3379,6 +3379,10 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -985542389825260074, guid: e6add45aeeb3bb542a2d766d22bff65a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -985542389825260074, guid: e6add45aeeb3bb542a2d766d22bff65a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f65fb16d41316d945ade9ea5d8bf4a0f, type: 2}
@@ -3494,6 +3498,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 7742780737561719692, guid: e6add45aeeb3bb542a2d766d22bff65a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8719771546195959716, guid: e6add45aeeb3bb542a2d766d22bff65a, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -3559,6 +3567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Interaction
   pressE: {fileID: 343580696}
+  playerIsInArea: 0
 --- !u!114 &1137738702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3572,8 +3581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerXoxo
   minigameScenes:
-  - Minigame1
   - Minijuego3
+  - Minigame1
   - suture
   endScene: OperationRoom4
   sequenceRunning: 0
@@ -4610,7 +4619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1465851841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5697,7 +5706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3363243270990578113, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3682632455453668337, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
       propertyPath: m_Name

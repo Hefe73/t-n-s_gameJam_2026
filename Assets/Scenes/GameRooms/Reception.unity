@@ -1168,6 +1168,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4348641131259589894, guid: e196edd1fa66e9647844ab10ae4857e6, type: 3}
+      propertyPath: fogEnd
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4348641131259589894, guid: e196edd1fa66e9647844ab10ae4857e6, type: 3}
       propertyPath: door_tr
       value: 
       objectReference: {fileID: 587019607}
