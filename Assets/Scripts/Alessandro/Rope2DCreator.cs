@@ -10,9 +10,10 @@ public class Rope2DCreator : MonoBehaviour
     public Transform startPoint;
     public Transform endPoint;
 
-    public HingeJoint2D segmentPrefab;
+    public HingeJoint segmentPrefab;
 
     [HideInInspector] public Transform[] segments;
+    public Suture sutureManager;
 
     Vector2 GetSegmentPosition(int index)
     {
@@ -36,16 +37,16 @@ public class Rope2DCreator : MonoBehaviour
             if (i > 0)
             {
                 int prevIndex = i - 1;
-                currJoint.connectedBody = segments[prevIndex].GetComponent<Rigidbody2D>();
+                currJoint.connectedBody = segments[prevIndex].GetComponent<Rigidbody>();
             }
             else
             {
-                currJoint.connectedBody = startPoint.GetComponent<Rigidbody2D>();
+                currJoint.connectedBody = startPoint.GetComponent<Rigidbody>();
             }
 
             if (i == segmentCount - 1)
             {
-                currJoint.connectedBody = endPoint.GetComponent<Rigidbody2D>();
+                currJoint.connectedBody = endPoint.GetComponent<Rigidbody>();
             }
         }
     }
@@ -78,7 +79,7 @@ public class Rope2DCreator : MonoBehaviour
 
     private void Update()
     {
-        /*if (startPoint == null || segments == null || segments.Length == 0) return;
+        if (startPoint == null || segments == null || segments.Length == 0) return;
 
         var cam = Camera.main;
         if (cam == null) return;
@@ -90,9 +91,9 @@ public class Rope2DCreator : MonoBehaviour
         var firstSegment = segments[0];
         firstSegment.position = worldMousePos;
         
-        for (int i = 1; i <= segmentCount; i++)
+        if (sutureManager != null)
         {
-            segments[i].position = GetSegmentPosition(i);
-        }*/
+            //sutureManager.CheckSutureStatus(segments);
+        }
     }
 }
