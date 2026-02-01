@@ -8,7 +8,7 @@ public class InstrumentCursor : MonoBehaviour
     public Canvas canvas;
 
     private RectTransform iconRect;
-    private Sprite currentInstrument;
+    public Sprite currentInstrument;
 
     private Vector2 currentHotspotOffset = Vector2.zero;
 

@@ -19,6 +19,8 @@ public class Minigame3 : MonoBehaviour
     private Vector3 lastMouseWorldPos;
     private bool hasLastMousePos = false;
 
+    private bool canBeClickError = true;
+
     public AudioSource cut_sound;
     public PlayUISound uiSoundplayer;
 
@@ -34,11 +36,23 @@ public class Minigame3 : MonoBehaviour
     private List<GameObject> debugSpheres = new List<GameObject>();
     private GameObject debugMouseSphere;
 
+    InstrumentCursor instrumentCursor;
+    bool hasInstrumentCursor = false;
+
 
     void Start()
     {
         BuildPath();
+
+        instrumentCursor = FindFirstObjectByType<InstrumentCursor>();
+        hasInstrumentCursor = instrumentCursor != null;
+
+        if (hasInstrumentCursor)
+            Debug.Log("InstrumentCursor detected in scene.");
+        else
+            Debug.Log("No InstrumentCursor detected, ignoring instrument requirement.");
     }
+
 
     void BuildPath()
     {
@@ -127,7 +141,7 @@ public class Minigame3 : MonoBehaviour
             uiSoundplayer.PlaySoundLoose();
         }
 
-        ClearDebugSpheres();
+        //ClearDebugSpheres();
     }
 
     void Win()
@@ -143,11 +157,11 @@ public class Minigame3 : MonoBehaviour
 
         MinigameManagerXoxo.Instance.MinigameFinished(2.0f);
         ClearDebugSpheres();
-    } 
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             BuildPath();
             started = true;
@@ -155,14 +169,19 @@ public class Minigame3 : MonoBehaviour
             hasLastMousePos = false;
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(0))
         {
             if (!started) return;
 
             if (progress >= pathPoints.Count)
                 Win();
             else
-                Lose();
+            {
+                if (!canBeClickError)
+                {
+                    Lose();
+                }
+            }
         }
 
         if (progress - lastcutInterval > soundCutIntervals)
@@ -173,7 +192,7 @@ public class Minigame3 : MonoBehaviour
             cut_sound.PlayOneShot(cut_sound.clip);
         }
 
-        if (!started || !Input.GetMouseButton(1))
+        if (!started || !Input.GetMouseButton(0))
             return;
 
         if (!MouseWorldPosition(out Vector3 mouseWorld))
@@ -208,13 +227,6 @@ public class Minigame3 : MonoBehaviour
         if (progress < pathPoints.Count &&
             Vector3.Distance(mouseWorld, pathPoints[progress]) <= errorFreedom)
             valid = true;
-
-        if (!valid)
-        {
-            Lose();
-            return;
-        }
-
         if (showDebugInGame && Application.isPlaying)
         {
             if (MouseWorldPosition(out Vector3 mouse))
@@ -235,12 +247,40 @@ public class Minigame3 : MonoBehaviour
             }
         }
 
+        if (!valid)
+        {
+            if (canBeClickError && hasInstrumentCursor)
+            {
+                canBeClickError = false;
+            }
+            else
+            {
+                Lose();
+            }
+
+            return;
+        }
+
 
         if (progress < pathPoints.Count &&
             Vector3.Distance(mouseWorld, pathPoints[progress]) <= errorFreedom)
         {
-            progress++;
+            // If InstrumentCursor exists, require an instrument
+            if (hasInstrumentCursor)
+            {
+                if (instrumentCursor.currentInstrument != null)
+                {
+                    progress++;
+                }
+                // else: instrument missing → do NOT advance
+            }
+            else
+            {
+                // No InstrumentCursor in scene → always allow
+                progress++;
+            }
         }
+
 
         if (showDebugInGame && progress < debugSpheres.Count)
         {
@@ -265,7 +305,7 @@ public class Minigame3 : MonoBehaviour
         if (started && progress < pathPoints.Count)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawSphere(pathPoints[progress], 0.08f);
+            Gizmos.DrawSphere(pathPoints[progress], 0.02f);
         }
 
         if (Application.isPlaying && MouseWorldPosition(out Vector3 mouse))
