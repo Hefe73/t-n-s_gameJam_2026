@@ -17,6 +17,11 @@ public class OxygenMinigame : MonoBehaviour
     public bool valveOpen = false;
     public bool finished = false;
 
+    public AudioSource valveSoundOpen;
+    public AudioSource valveSoundClose;
+    public AudioSource fillAir;
+    public PlayUISound uiSoundPlayer;
+    
     //[SerializeField] private HudController hud;
 
     void Start()
@@ -33,14 +38,18 @@ public class OxygenMinigame : MonoBehaviour
         if (WasPressedThisFrame())
         {
             valveOpen = !valveOpen;
+            valveSoundOpen.PlayOneShot(valveSoundOpen.clip);
+            fillAir.Play();
         }
 
         if (valveOpen)
         {
             fill += fillSpeed * Time.deltaTime;
-
+                
             if (fill >= 1f)
             {
+                fillAir.Stop();
+                valveSoundClose.PlayOneShot(valveSoundClose.clip);
                 Fail();
                 return;
             }
@@ -75,12 +84,14 @@ public class OxygenMinigame : MonoBehaviour
     {
         finished = true;
         valveOpen = false;
+        uiSoundPlayer.PlaySoundWin();
         Debug.Log("Oxigeno administrado correctamente");
     }
 
     void Fail()
     {
         Debug.Log("Exceso de oxigeno - reiniciando");
+        uiSoundPlayer.PlaySoundLoose();
         ResetGame();
     }
 
