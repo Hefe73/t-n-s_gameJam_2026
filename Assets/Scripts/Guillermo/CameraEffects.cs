@@ -52,6 +52,7 @@ public class CameraEffects : MonoBehaviour
     private UnityEngine.Rendering.PostProcessing.Vignette vignette;
     private PostProcessProfile ppProfile;
     private CameraManager _cameraManager;
+    public AudioSource door_sound_hinge;
 
     private float startColorStepsForDoorAnim;
 
@@ -76,7 +77,7 @@ public class CameraEffects : MonoBehaviour
         {
             _cameraManager.isFollowingPlayer = false;
         }
-
+        door_sound_hinge.PlayOneShot(door_sound_hinge.clip);
         while (t < door_opening_duration)
         {
             float k = t / door_opening_duration;
