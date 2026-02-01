@@ -1,14 +1,21 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] Transform cam; 
+    [SerializeField] Transform cam;
     public float speed = 5f;
     public float rotateSpeed = 10f;
 
+    public AudioSource footsteps;
+    public float stepDistance = 0.67f;
+    float distanceAccumulator;
     float h;
     float v;
+    Vector3 lastPosition;
+    bool hasLastPosition;
+
 
     Rigidbody rb;
 
@@ -35,16 +42,50 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void PlaySound(float pitchRange)
+    {
+        footsteps.volume = Random.Range(0.85f, 1f);
+        footsteps.pitch = Random.Range(1f - pitchRange, 1f + pitchRange);
+        footsteps.PlayOneShot(footsteps.clip);
+    }
+
+
+    void HandleFootsteps()
+    {
+        if (!hasLastPosition)
+        {
+            lastPosition = rb.position;
+            hasLastPosition = true;
+            return;
+        }
+
+        float distanceMoved = Vector3.Distance(rb.position, lastPosition);
+        lastPosition = rb.position;
+
+        if (distanceMoved < 0.00001f)
+            return;
+
+        distanceAccumulator += distanceMoved;
+
+        if (distanceAccumulator >= stepDistance)
+        {
+            PlaySound(0.15f);
+            distanceAccumulator = 0f;
+        }
+    }
+
+
     void Update()
     {
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
+        HandleFootsteps();
     }
 
     void FixedUpdate()
     {
         Vector3 camForward = Vector3.zero;
-        Vector3 camRight   = Vector3.zero;
+        Vector3 camRight = Vector3.zero;
 
         if (cam != null)
         {
@@ -74,6 +115,12 @@ public class PlayerManager : MonoBehaviour
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             Quaternion newRot = Quaternion.Slerp(rb.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newRot);
+        }
+
+        if (moveDir.sqrMagnitude < 0.001f)
+        {
+            hasLastPosition = false;
+            distanceAccumulator = 0f;
         }
     }
 }
