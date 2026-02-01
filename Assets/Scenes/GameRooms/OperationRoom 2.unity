@@ -3245,7 +3245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3c90bc691867bbc439a21b64d2c8a41b, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3257,6 +3257,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c90bc691867bbc439a21b64d2c8a41b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 896412690}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3c90bc691867bbc439a21b64d2c8a41b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 896412691}
   m_SourcePrefab: {fileID: 100100000, guid: 3c90bc691867bbc439a21b64d2c8a41b, type: 3}
 --- !u!1 &896412688 stripped
 GameObject:
@@ -3297,6 +3300,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Interaction
   pressE: {fileID: 968775823}
+--- !u!114 &896412691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896412688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d50ad104d262c1149a1efa7afc9e88b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinigameManager
+  minigameScenes:
+  - Minijuego3
+  endScene: OperationRoom 2
+  sequenceRunning: 0
 --- !u!1 &917245759
 GameObject:
   m_ObjectHideFlags: 0

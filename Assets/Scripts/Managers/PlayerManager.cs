@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerManager : MonoBehaviour
@@ -15,6 +16,8 @@ public class PlayerManager : MonoBehaviour
     float v;
     Vector3 lastPosition;
     bool hasLastPosition;
+
+    public Animator animator; 
 
 
     Rigidbody rb;
@@ -112,6 +115,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveDir.sqrMagnitude > 0.001f)
         {
+            animator.SetBool("idle",false);
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             Quaternion newRot = Quaternion.Slerp(rb.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newRot);
@@ -119,6 +123,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveDir.sqrMagnitude < 0.001f)
         {
+            animator.SetBool("idle",true);
             hasLastPosition = false;
             distanceAccumulator = 0f;
         }
