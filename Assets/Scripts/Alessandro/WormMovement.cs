@@ -40,7 +40,7 @@ public class WormMovement : MonoBehaviour
         
         transform.position += movementStep;
         
-        if ((transform.position - targetPosition).magnitude < 0.1f && currentPointIndex != targetPointIndex)
+        if ((transform.position - targetPosition).magnitude < 0.05f && currentPointIndex != targetPointIndex)
         {
             hasMissed = true;
             onMissedCallback?.Invoke();
