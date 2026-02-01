@@ -9,47 +9,18 @@ public class CleaningWound : MonoBehaviour
     public Collider targetCollider;
     public Transform cottonVisual;
 
+    [Header("Cleaning")]
+    public float cottonHoverOffset = 0.01f;
+    public float cottonRadiusWorld = 0.12f; 
+
+    [Header("Stains (manual)")]
+    public List<StainTarget> stains = new();
+
+    [Header("Audio/UI")]
     public AudioSource sfx;
     public PlayUISound uiSoundplayer;
 
-    [Header("Gameplay")]
-    [Range(1, 30)] public int stainCount = 8;
-    [Range(0.01f, 0.25f)] public float stainRadiusUV = 0.06f; 
-    public int passesRequired = 3;
-
-    [Header("Cotton")]
-    [Range(0.01f, 0.25f)] public float cottonRadiusUV = 0.06f;
-    public float cottonHoverOffset = 0.01f;
-
-    [Header("Visual placeholders")]
-    public GameObject stainQuadPrefab;
-
-    [Header("World placement")]
-    public float stainWorldScale = 0.15f;   
-    public float surfaceOffset = 0.002f;   
-
-    [Header("Spawn zone")]
-    [Range(0f, 1f)] public float topStartPercent = 0.8f; 
-
-    [Header("Torso zone")]
-    public Collider torsoCollider;
-
-    [System.Serializable]
-    public class Stain
-    {
-        public Vector2 centerUV; 
-        public float radiusUV;
-        public int passes;
-        public bool wasInside;
-        public GameObject visual;
-
-        public Vector3 worldPos;
-        public Vector3 worldNormal;
-
-        public bool IsClean(int req) => passes >= req;
-    }
-
-    private readonly List<Stain> stains = new();
+    readonly HashSet<StainTarget> _inside = new();
 
     void OnEnable() => Cursor.visible = false;
     void OnDisable() => Cursor.visible = true;
@@ -58,13 +29,10 @@ public class CleaningWound : MonoBehaviour
     {
         if (!cam) cam = Camera.main;
 
-        GenerateStainsOnSurface();
-        SpawnStainVisualsOnSurface();
-
-        if (stains.Count == 0)
+        if (stains == null || stains.Count == 0)
         {
-            Debug.LogWarning("No se generaron stains. Revisá TorsoCollider / Raycasts.");
-            enabled = false; // o reintentar
+            Debug.LogWarning("No hay manchas asignadas en la lista 'stains'.");
+            enabled = false;
         }
     }
 
@@ -78,19 +46,16 @@ public class CleaningWound : MonoBehaviour
         if (!targetCollider.Raycast(ray, out RaycastHit hit, 999f))
             return;
 
-        Vector2 uv = GetUV(hit);
-
         if (cottonVisual)
             cottonVisual.position = hit.point + hit.normal * cottonHoverOffset;
 
-        UpdateCleaning(uv);
+        UpdateCleaningWorld(hit.point);
 
         if (AllClean())
         {
             Debug.Log("Minijuego completado: todas las manchas limpias.");
 
-            if (uiSoundplayer != null)
-                uiSoundplayer.PlaySoundWin();
+            if (uiSoundplayer) uiSoundplayer.PlaySoundWin();
 
             if (MinigameManagerChoni.Instance != null)
                 MinigameManagerChoni.Instance.MinigameFinished(1.5f);
@@ -101,127 +66,41 @@ public class CleaningWound : MonoBehaviour
         }
     }
 
-    void GenerateStainsOnSurface()
+    void UpdateCleaningWorld(Vector3 cottonWorldPos)
     {
-        stains.Clear();
-        if (!targetCollider || !torsoCollider) return;
-
-        Bounds torsoB = torsoCollider.bounds;
-
-        int safety = 0;
-        while (stains.Count < stainCount && safety++ < 20000)
+        for (int i = 0; i < stains.Count; i++)
         {
-            // Punto random en XZ del torso, pero arrancamos desde ARRIBA
-            Vector3 origin = new Vector3(
-                Random.Range(torsoB.min.x, torsoB.max.x),
-                torsoB.max.y + 0.5f,
-                Random.Range(torsoB.min.z, torsoB.max.z)
-            );
+            var st = stains[i];
+            if (st == null || st.IsClean) continue;
 
-            Vector3 dir = Vector3.down;
+            bool inside = st.ContainsPoint(cottonWorldPos, cottonRadiusWorld);
 
-            // 1) tiene que pegar en el torso zone (garantiza "zona torso")
-            if (!torsoCollider.Raycast(new Ray(origin, dir), out RaycastHit torsoHit, 5f))
-                continue;
-
-            // 2) y además en la piel (targetCollider)
-            if (!targetCollider.Raycast(new Ray(origin, dir), out RaycastHit hit, 5f))
-                continue;
-
-            // que no haya quedado muy lejos del torso hit
-            if (Vector3.Distance(hit.point, torsoHit.point) > 0.30f)
-                continue;
-
-            // separar manchas entre sí
-            bool ok = true;
-            foreach (var s in stains)
+            if (inside && !_inside.Contains(st))
             {
-                if (Vector3.Distance(hit.point, s.worldPos) < stainWorldScale * 0.9f)
-                {
-                    ok = false;
-                    break;
-                }
+                st.AddPass();
+                _inside.Add(st);
+
+                Debug.Log($"Pass +1 en {st.name}: {st.passes}/{st.passesRequired}");
+
+                if (sfx && sfx.clip) sfx.PlayOneShot(sfx.clip);
             }
-            if (!ok) continue;
-
-            stains.Add(new Stain
+            else if (!inside && _inside.Contains(st))
             {
-                centerUV = hit.textureCoord,
-                radiusUV = stainRadiusUV,
-                passes = 0,
-                wasInside = false,
-                worldPos = hit.point,
-                worldNormal = hit.normal
-            });
-        }
-
-        Debug.Log($"Stains generadas: {stains.Count}/{stainCount}");
-    }
-
-
-
-    void SpawnStainVisualsOnSurface()
-    {
-        if (!stainQuadPrefab || targetCollider == null) return;
-
-        foreach (var s in stains)
-        {
-            GameObject quad = Instantiate(stainQuadPrefab);
-            quad.name = "Stain";
-
-            quad.transform.SetParent(targetCollider.transform, true); 
-
-            quad.transform.position = s.worldPos + s.worldNormal * surfaceOffset;
-            quad.transform.rotation = Quaternion.LookRotation(s.worldNormal);
-
-            quad.transform.localScale = new Vector3(stainWorldScale, stainWorldScale, 1f);
-
-            s.visual = quad;
-        }
-    }
-
-    Vector2 GetUV(RaycastHit hit)
-    {
-        return hit.textureCoord;
-    }
-
-    void UpdateCleaning(Vector2 cottonUV)
-    {
-        float effectiveRadius = cottonRadiusUV;
-
-        foreach (var s in stains)
-        {
-            if (s.IsClean(passesRequired))
-                continue;
-
-            float dist = Vector2.Distance(cottonUV, s.centerUV);
-            bool inside = dist <= (s.radiusUV + effectiveRadius);
-
-            if (inside && !s.wasInside)
-            {
-                s.passes++;
-                if (s.passes > passesRequired) s.passes = passesRequired;
-
-                if (s.IsClean(passesRequired) && s.visual != null)
-                {
-                    s.visual.SetActive(false);
-                    if (sfx && sfx.clip) sfx.PlayOneShot(sfx.clip);
-                }
+                _inside.Remove(st);
             }
-
-            s.wasInside = inside;
         }
     }
-
     bool AllClean()
     {
-        if (stains.Count == 0) return false; // <- clave
-        foreach (var s in stains)
-            if (!s.IsClean(passesRequired)) return false;
+        for (int i = 0; i < stains.Count; i++)
+        {
+            var st = stains[i];
+            if (st != null && !st.IsClean) return false;
+        }
         return true;
     }
 
-    private Vector2 GetPointerScreenPosition()
+    Vector2 GetPointerScreenPosition()
     {
         if (Mouse.current != null)
             return Mouse.current.position.ReadValue();
