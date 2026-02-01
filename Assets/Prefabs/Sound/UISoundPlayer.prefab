@@ -68,7 +68,7 @@ AudioSource:
   m_Resource: {fileID: 8300000, guid: b48a72fd0b5360748b22daf8ff5ca7be, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1.0455997
+  m_Pitch: 1.033766
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -165,7 +165,7 @@ AudioSource:
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1.0308619
+  m_Pitch: 0.99269086
   Loop: 0
   Mute: 0
   Spatialize: 0
