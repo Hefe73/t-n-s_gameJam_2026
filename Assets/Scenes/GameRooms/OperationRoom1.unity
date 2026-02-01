@@ -665,6 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Interaction
   pressE: {fileID: 937050200}
+  playerIsInArea: 0
 --- !u!135 &197752011
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2180,7 +2181,7 @@ MonoBehaviour:
   RoomsNameList: []
   GAS: 100
   decreaseSpeed: 0.1
-  gas_slider: {fileID: 2097127930}
+  bIsOperating_: 0
 --- !u!4 &801593716
 Transform:
   m_ObjectHideFlags: 0
@@ -3488,6 +3489,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2190504489229066724, guid: 930608258b0de0a4896540d446f18c45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131405124771547750, guid: 930608258b0de0a4896540d446f18c45, type: 3}
+      propertyPath: imLobby
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7131405124771547750, guid: 930608258b0de0a4896540d446f18c45, type: 3}
@@ -5881,17 +5886,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8462820683032717401, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
   m_PrefabInstance: {fileID: 2097127928}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2097127930 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6547868462579777405, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
-  m_PrefabInstance: {fileID: 2097127928}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &2117332240
 GameObject:
   m_ObjectHideFlags: 0

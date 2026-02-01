@@ -3755,6 +3755,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7131405124771547750, guid: 930608258b0de0a4896540d446f18c45, type: 3}
+      propertyPath: imLobby
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131405124771547750, guid: 930608258b0de0a4896540d446f18c45, type: 3}
       propertyPath: sceneName
       value: Reception
       objectReference: {fileID: 0}
