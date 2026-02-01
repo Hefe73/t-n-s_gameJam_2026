@@ -169,7 +169,7 @@ MonoBehaviour:
   speed: 2
   rotateSpeed: 10
   footsteps: {fileID: 5417429054070574371}
-  stepDistance: 1.1
+  stepDistance: 1.6
   animator: {fileID: 7243485076849125346}
 --- !u!54 &7561425908380772680
 Rigidbody:
