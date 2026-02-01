@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class BleedingGameManager : MonoBehaviour
 {
-    [SerializeField] private int woundID; 
-    
+    [SerializeField] private int woundID;
+
+    public AudioSource bandageSound;
+    public PlayUISound uiSoundPlayer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,21 +24,24 @@ public class BleedingGameManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-
                 // If it is not a wound, ignore
                 if (!hit.collider.CompareTag("Wound"))
                 {
                     return;
                 }
-                
+
                 var gusher = hit.collider.gameObject.GetComponentInChildren<BloodGusher>();
                 if (woundID == gusher.id_)
                 {
                     Debug.Log("Correct wound!");
                     gusher.gameObject.SetActive(false);
                     woundID++;
+                    bandageSound.volume = Random.Range(0.85f, 1f);
+                    bandageSound.pitch = Random.Range(1f - 0.15f, 1f + 0.15f);
+                    bandageSound.PlayOneShot(bandageSound.clip);
                     if (woundID >= 3)
                     {
+                        uiSoundPlayer.PlaySoundWin();
                         Debug.Log("Game finished");
                     }
                 }
@@ -45,7 +51,6 @@ public class BleedingGameManager : MonoBehaviour
                     woundID = 0;
                     restartGame();
                 }
-
             }
         }
     }
@@ -57,5 +62,7 @@ public class BleedingGameManager : MonoBehaviour
         {
             gusher.gameObject.SetActive(true);
         }
+
+        uiSoundPlayer.PlaySoundLoose();
     }
 }
