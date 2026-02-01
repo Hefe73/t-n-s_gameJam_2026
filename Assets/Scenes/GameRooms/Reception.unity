@@ -4048,6 +4048,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1118351693491562685, guid: 3efd39b08e70e2447b02c7c54b5dd8de, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1518197968}
     - target: {fileID: 5238057288253603370, guid: 3efd39b08e70e2447b02c7c54b5dd8de, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.44
@@ -4323,6 +4327,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &1518197968 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7243485076849125346, guid: 3efd39b08e70e2447b02c7c54b5dd8de, type: 3}
+  m_PrefabInstance: {fileID: 1381123866}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1548774177
 PrefabInstance:
   m_ObjectHideFlags: 0
