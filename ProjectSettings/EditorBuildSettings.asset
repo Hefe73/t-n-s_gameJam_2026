@@ -29,6 +29,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameRooms/OperationRoom4.unity
     guid: 68ccac8d6a9336342b1a51ce63d33c77
+  - enabled: 1
+    path: Assets/Scenes/TestingFeatures/MiniGames/Minijuego3.unity
+    guid: 151a059ce7b00f142a114d801f78137d
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/Minigame1.unity
+    guid: 798a103268b8e254a918a73bf1a90003
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0
