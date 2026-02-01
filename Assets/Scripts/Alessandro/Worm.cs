@@ -15,6 +15,9 @@ public class Worm : MonoBehaviour
     private float timer;
     private Camera cam;
 
+        public AudioSource wormOutSfx;
+    public PlayUISound uiSoundPlayer;
+    
     void Start()
     {
         // Validar referencias iniciales
@@ -64,6 +67,8 @@ public class Worm : MonoBehaviour
                     Destroy(hit.collider.gameObject);
                     wormsKilled++;
                     wormsAlive--;
+                    wormOutSfx.pitch = Random.Range(1f - 0.1f, 1f + 0.1f);
+                    wormOutSfx.PlayOneShot(wormOutSfx.clip);
                     CheckGameStatus();
                 }
             }
@@ -112,8 +117,8 @@ public class Worm : MonoBehaviour
     {
         if (wormsKilled == maxWorms)
         {
-            Debug.Log("¡Has ganado!");
             EndGame(true);
+            uiSoundPlayer.PlaySoundWin();
         }
         else if (wormsMissed + wormsAlive == maxWorms)
         {
@@ -131,10 +136,12 @@ public class Worm : MonoBehaviour
     {
         if (hasWon)
         {
+            uiSoundPlayer.PlaySoundWin();
             Debug.Log("¡Felicidades! Has ganado.");
         }
         else
         {
+            uiSoundPlayer.PlaySoundLoose();
             Debug.Log("¡Perdiste!");
         }
     }
