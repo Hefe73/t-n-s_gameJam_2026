@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerManager : MonoBehaviour
@@ -16,6 +18,8 @@ public class PlayerManager : MonoBehaviour
     Vector3 lastPosition;
     bool hasLastPosition;
 
+    public Animator animator; 
+
 
     Rigidbody rb;
 
@@ -27,6 +31,21 @@ public class PlayerManager : MonoBehaviour
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+    }
+    
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        animator = GameObject.Find("Walking")?.GetComponent<Animator>();
     }
 
     void Start()
@@ -112,6 +131,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveDir.sqrMagnitude > 0.001f)
         {
+            animator.SetBool("idle",false);
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             Quaternion newRot = Quaternion.Slerp(rb.rotation, targetRot, rotateSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newRot);
@@ -119,6 +139,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveDir.sqrMagnitude < 0.001f)
         {
+            animator.SetBool("idle",true);
             hasLastPosition = false;
             distanceAccumulator = 0f;
         }

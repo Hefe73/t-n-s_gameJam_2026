@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8462820683032717401}
   - component: {fileID: 5865983549185008127}
   - component: {fileID: 1273079885386284453}
+  - component: {fileID: 2466189256635492209}
   m_Layer: 5
   m_Name: Gas
   m_TagString: Untagged
@@ -76,6 +77,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2466189256635492209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274578948705434627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f9977a94f4a9174fa73ca919b709e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OxygenBarSlider
 --- !u!1 &1557572509528284128
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,9 +323,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0.426
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

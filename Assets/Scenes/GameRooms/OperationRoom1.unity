@@ -2126,6 +2126,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 589317605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &801593714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 801593716}
+  - component: {fileID: 801593715}
+  m_Layer: 0
+  m_Name: GameLoopManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &801593715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801593714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34b89578ba48ba049900d0caa7fe5863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameLoopManager
+  patientsHealed: 0
+  RoomsNameList: []
+  GAS: 100
+  decreaseSpeed: 0.1
+  gas_slider: {fileID: 2097127930}
+--- !u!4 &801593716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801593714}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 675.48114, y: 214.92928, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &815687143
 GameObject:
   m_ObjectHideFlags: 0
@@ -5811,6 +5860,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8462820683032717401, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
   m_PrefabInstance: {fileID: 2097127928}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2097127930 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6547868462579777405, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
+  m_PrefabInstance: {fileID: 2097127928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &2117332240
 GameObject:
   m_ObjectHideFlags: 0
@@ -6196,3 +6256,4 @@ SceneRoots:
   - {fileID: 214716921}
   - {fileID: 1288615024}
   - {fileID: 1938511719}
+  - {fileID: 801593716}

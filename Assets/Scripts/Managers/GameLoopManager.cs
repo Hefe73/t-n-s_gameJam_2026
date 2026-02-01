@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,9 +11,9 @@ public class GameLoopManager : MonoBehaviour
     [SerializeField] public int patientsHealed;
     [SerializeField] public string[] RoomsNameList;
     [SerializeField] public float GAS;
-
-    [SerializeField] Slider gas_slider;
-
+    [SerializeField] public float decreaseSpeed;
+    public bool bIsOperating_;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -36,10 +37,29 @@ public class GameLoopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gas_slider.value = GAS;
+        if (bIsOperating_)
+        {
+            GAS -= Time.deltaTime * decreaseSpeed;
+        }
     }
 
     void PatientHealed(){
         patientsHealed++;
+        bIsOperating_ = false;
+    }
+
+    void StartOperation()
+    {
+        bIsOperating_ = true;
+    }
+    
+    public void SetOxygen(float value)
+    {
+        GAS = Mathf.Clamp(value, 0.0f, 100.0f);
+    }
+
+    public void AddOxygen(float amount)
+    {
+        SetOxygen(GAS + amount);
     }
 }
