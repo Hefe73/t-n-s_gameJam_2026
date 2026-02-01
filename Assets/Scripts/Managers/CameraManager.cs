@@ -49,6 +49,9 @@ public class CameraManager : MonoBehaviour
     public void FindCameraPlayer()
     {
         camera = GameObject.Find("CameraWithVFX")?.GetComponent<Camera>();
+        if (!camera)
+            camera = GameObject.Find("CameraMinigames")?.GetComponent<Camera>();
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)

@@ -9,7 +9,7 @@ public class DoorsManagers : MonoBehaviour
     public CameraEffects camEffects;
     private bool alreadyDoingAnimation = false;
     
-    // Update is called once per frame
+    // Update is called once per frame 
     void Update()
     {
         if (camEffects && camEffects.doorAnimationFinished)
