@@ -25,6 +25,16 @@ public class Minigame3 : MonoBehaviour
     public int soundCutIntervals = 4;
     private int lastcutInterval = 0;
 
+    [Header("Debug Visualization")] public bool showDebugInGame = true;
+    public Color debugPathColor = Color.cyan;
+    public Color debugCurrentColor = Color.green;
+    public Color debugMouseColor = Color.red;
+    public float debugSphereSize = 0.06f;
+
+    private List<GameObject> debugSpheres = new List<GameObject>();
+    private GameObject debugMouseSphere;
+
+
     void Start()
     {
         BuildPath();
@@ -55,7 +65,40 @@ public class Minigame3 : MonoBehaviour
                 pathPoints.Add(Vector3.Lerp(a, b, t));
             }
         }
+
+        CreateDebugSpheres();
     }
+
+    void ClearDebugSpheres()
+    {
+        foreach (var go in debugSpheres)
+            if (go)
+                Destroy(go);
+
+        debugSpheres.Clear();
+    }
+
+    void CreateDebugSpheres()
+    {
+        if (!showDebugInGame) return;
+
+        ClearDebugSpheres();
+
+        foreach (var p in pathPoints)
+        {
+            GameObject s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            s.transform.position = p;
+            s.transform.localScale = Vector3.one * debugSphereSize;
+
+            var r = s.GetComponent<Renderer>();
+            r.material = new Material(Shader.Find("Unlit/Color"));
+            r.material.color = debugPathColor;
+
+            Destroy(s.GetComponent<Collider>()); // debug only
+            debugSpheres.Add(s);
+        }
+    }
+
 
     bool MouseWorldPosition(out Vector3 pos)
     {
@@ -83,6 +126,8 @@ public class Minigame3 : MonoBehaviour
         {
             uiSoundplayer.PlaySoundLoose();
         }
+
+        ClearDebugSpheres();
     }
 
     void Win()
@@ -95,9 +140,10 @@ public class Minigame3 : MonoBehaviour
         {
             uiSoundplayer.PlaySoundWin();
         }
-         MinigameManagerXoxo.Instance.MinigameFinished(2.0f);
-        
-    }
+
+        MinigameManagerXoxo.Instance.MinigameFinished(2.0f);
+        ClearDebugSpheres();
+    } 
 
     void Update()
     {
@@ -123,8 +169,8 @@ public class Minigame3 : MonoBehaviour
         {
             lastcutInterval = progress;
             cut_sound.volume = Random.Range(0.55f, 0.8f);
-        cut_sound.pitch = Random.Range(1f - 0.2f, 1f + 0.2f);
-        cut_sound.PlayOneShot(cut_sound.clip);
+            cut_sound.pitch = Random.Range(1f - 0.2f, 1f + 0.2f);
+            cut_sound.PlayOneShot(cut_sound.clip);
         }
 
         if (!started || !Input.GetMouseButton(1))
@@ -169,10 +215,40 @@ public class Minigame3 : MonoBehaviour
             return;
         }
 
+        if (showDebugInGame && Application.isPlaying)
+        {
+            if (MouseWorldPosition(out Vector3 mouse))
+            {
+                if (debugMouseSphere == null)
+                {
+                    debugMouseSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    debugMouseSphere.transform.localScale = Vector3.one * debugSphereSize;
+
+                    var r = debugMouseSphere.GetComponent<Renderer>();
+                    r.material = new Material(Shader.Find("Unlit/Color"));
+                    r.material.color = debugMouseColor;
+
+                    Destroy(debugMouseSphere.GetComponent<Collider>());
+                }
+
+                debugMouseSphere.transform.position = mouse;
+            }
+        }
+
+
         if (progress < pathPoints.Count &&
             Vector3.Distance(mouseWorld, pathPoints[progress]) <= errorFreedom)
         {
             progress++;
+        }
+
+        if (showDebugInGame && progress < debugSpheres.Count)
+        {
+            for (int i = 0; i < debugSpheres.Count; i++)
+            {
+                var r = debugSpheres[i].GetComponent<Renderer>();
+                r.material.color = (i == progress) ? debugCurrentColor : debugPathColor;
+            }
         }
     }
 

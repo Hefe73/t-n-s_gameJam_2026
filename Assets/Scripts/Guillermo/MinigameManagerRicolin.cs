@@ -14,7 +14,9 @@ public class MinigameManagerRicolin : MonoBehaviour
     public bool sequenceRunning = false;
 
     NPC_Interaction npcInteraction;
-    MeshRenderer meshRenderer;
+
+    MeshRenderer[] meshRenderers;
+    SkinnedMeshRenderer[] skinnedMeshRenderers;
     SphereCollider sphereCollider;
 
     void Awake()
@@ -31,14 +33,16 @@ public class MinigameManagerRicolin : MonoBehaviour
 
         // Components on SAME object (or children)
         npcInteraction = GetComponent<NPC_Interaction>();
-        meshRenderer = GetComponentInChildren<MeshRenderer>();
-        sphereCollider = GetComponentInChildren<SphereCollider>();
+
+        meshRenderers = GetComponentsInChildren<MeshRenderer>(true);
+        skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
+        sphereCollider = GetComponentInChildren<SphereCollider>(true);
 
         if (npcInteraction == null)
             Debug.LogWarning("NPC_Interaction missing on MinigameManagerRicolin object.");
 
-        if (meshRenderer == null)
-            Debug.LogWarning("MeshRenderer not found on MinigameManagerRicolin object.");
+        if (meshRenderers.Length == 0 && skinnedMeshRenderers.Length == 0)
+            Debug.LogWarning("No MeshRenderer or SkinnedMeshRenderer found on NPC.");
 
         if (sphereCollider == null)
             Debug.LogWarning("SphereCollider not found on MinigameManagerRicolin object.");
@@ -115,9 +119,17 @@ public class MinigameManagerRicolin : MonoBehaviour
 
     void SetNPCActive(bool active)
     {
-        if (meshRenderer != null)
-            meshRenderer.enabled = active;
+        // Static meshes
+        foreach (var r in meshRenderers)
+            if (r != null)
+                r.enabled = active;
 
+        // Skinned meshes (characters)
+        foreach (var r in skinnedMeshRenderers)
+            if (r != null)
+                r.enabled = active;
+
+        // Interaction collider
         if (sphereCollider != null)
             sphereCollider.enabled = active;
     }
