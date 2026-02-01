@@ -8,11 +8,13 @@ public class DoorsManagers : MonoBehaviour
     [SerializeField] private bool imLobby;
     public CameraEffects camEffects;
     private bool alreadyDoingAnimation = false;
+
+    private MinigameManager _minigameManagerIns;
     
     // Update is called once per frame 
     void Update()
     {
-        if (camEffects && camEffects.doorAnimationFinished)
+        if (camEffects && camEffects.doorAnimationFinished && !_minigameManagerIns.sequenceRunning)
         {
             alreadyDoingAnimation = false;
             CameraManager cam = CameraManager.Instance;
@@ -26,6 +28,7 @@ public class DoorsManagers : MonoBehaviour
 
     private void Start()
     {
+        _minigameManagerIns = MinigameManager.Instance;
         if (!camEffects)
         {
             camEffects = FindFirstObjectByType<CameraEffects>();
