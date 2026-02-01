@@ -19,7 +19,6 @@ public class CameraBlink : MonoBehaviour
     private Renderer renderer;
     private UnityEngine.Rendering.PostProcessing.Vignette vignette;
     private PostProcessProfile ppProfile;
-    private CameraManager _cameraManager;
 
     private float startColorStepsForDoorAnim;
 
@@ -52,13 +51,6 @@ public class CameraBlink : MonoBehaviour
         Color c = mat_plane.color;
         c.a = 0.0f;
         mat_plane.color = c;
-
-        _cameraManager = CameraManager.Instance;
-
-        if (!_cameraManager)
-        {
-            Debug.Log("Camera Manager wasnt found!");
-        }
 
         SetTimeNextBlink();
         
