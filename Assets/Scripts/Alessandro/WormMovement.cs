@@ -1,8 +1,14 @@
 
 using UnityEngine;
 
-public class WormMovement : MonoBehaviour
+public class WormMovement : MonoBehaviour, IMinigameStartable
 {
+    bool gameActive = false;
+
+    public void StartMinigame()
+    {
+        gameActive = true;
+    }
     private Transform[] points;
     private int currentPointIndex = 0;
     private int targetPointIndex = 0;
@@ -47,6 +53,8 @@ public class WormMovement : MonoBehaviour
 
     void Update()
     {
+        if (!gameActive)
+            return;
         if (points == null || hasMissed) return;
 
         Vector3 targetPosition = points[targetPointIndex].position;
