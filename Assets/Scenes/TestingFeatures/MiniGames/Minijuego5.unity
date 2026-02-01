@@ -379,10 +379,12 @@ MonoBehaviour:
   fillRect: {fileID: 1767080135}
   targetRect: {fileID: 1744092425}
   valveButton: {fileID: 1744092426}
+  targetReference: {fileID: 0}
+  copyTargetFromReferenceOnEnable: 0
   fill: 0
   fillSpeed: 0.3
-  greenMin: 0.4
-  greenMax: 0.5
+  greenMin: 0.7
+  greenMax: 0.8
   valveOpen: 0
   finished: 0
   valveSoundOpen: {fileID: 73854651}
@@ -4147,8 +4149,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 83.383, y: -182}
-  m_SizeDelta: {x: 166.7667, y: 90.9}
+  m_AnchoredPosition: {x: 227.2, y: -181}
+  m_SizeDelta: {x: 139, y: 145.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1744092426
 MonoBehaviour:

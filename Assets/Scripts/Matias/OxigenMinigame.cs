@@ -4,13 +4,17 @@ using UnityEngine.UI;
 public class OxygenMinigameUI : MonoBehaviour
 {
     [Header("UI References")]
-    public RectTransform barContainer;   // el RectTransform del fondo de la barra (BarBG)
-    public RectTransform fillRect;       // el RectTransform del Fill
-    public RectTransform targetRect;     // el RectTransform del TargetZone
-    public Button valveButton;           // botón de la válvula (ValveButton)
+    public RectTransform barContainer;    
+    public RectTransform fillRect;        
+    public RectTransform targetRect;      
+    public Button valveButton;             
+
+    [Header("Target setup (copy from reference on start)")]
+    public RectTransform targetReference;  
+    public bool copyTargetFromReferenceOnEnable = true;
 
     [Header("Settings")]
-    [Range(0f, 5f)] public float fill = 0f;
+    [Range(0f, 1f)] public float fill = 0f;
     public float fillSpeed = 0.3f;
 
     [Range(0f, 1f)] public float greenMin = 0.55f;
@@ -29,18 +33,26 @@ public class OxygenMinigameUI : MonoBehaviour
 
     void Awake()
     {
-        barWidth = barContainer.rect.width;
+        if (barContainer != null)
+            barWidth = barContainer.rect.width;
 
         SetFill01(0f);
 
         if (valveButton != null)
+        {
+            valveButton.onClick.RemoveListener(ToggleValve);
             valveButton.onClick.AddListener(ToggleValve);
+        }
     }
 
     void OnEnable()
     {
         ResetGame();
-        PositionTargetZone();
+
+        if (copyTargetFromReferenceOnEnable && targetReference != null && targetRect != null)
+        {
+            CopySizeAndPos(targetReference, targetRect);
+        }
     }
 
     void Update()
@@ -95,7 +107,15 @@ public class OxygenMinigameUI : MonoBehaviour
 
     void SetFill01(float t01)
     {
-        float w = barWidth * Mathf.Clamp01(t01);
+        t01 = Mathf.Clamp01(t01);
+
+        if (barContainer != null)
+            barWidth = barContainer.rect.width - 250.0f;
+
+        float w = barWidth * t01;
+
+        if (fillRect == null) return;
+
         var size = fillRect.sizeDelta;
         size.x = w;
         fillRect.sizeDelta = size;
@@ -103,9 +123,13 @@ public class OxygenMinigameUI : MonoBehaviour
 
     void PositionTargetZone()
     {
+        if (barContainer == null || targetRect == null) return;
+
         greenMin = Mathf.Clamp01(greenMin);
         greenMax = Mathf.Clamp01(greenMax);
         if (greenMax < greenMin) (greenMin, greenMax) = (greenMax, greenMin);
+
+        barWidth = barContainer.rect.width;
 
         float size01 = greenMax - greenMin;
         float zoneWidth = barWidth * size01;
@@ -124,6 +148,9 @@ public class OxygenMinigameUI : MonoBehaviour
         finished = true;
         valveOpen = false;
         StopAir();
+
+        if (uiSoundPlayer != null) uiSoundPlayer.PlaySoundWin();
+        Debug.Log("Oxigeno administrado correctamente");
 
         var mgr = MinigameManagerLaFalsa.Instance;
         if (mgr == null)
@@ -149,6 +176,12 @@ public class OxygenMinigameUI : MonoBehaviour
         finished = false;
         SetFill01(0f);
         StopAir();
+    }
+
+    static void CopySizeAndPos(RectTransform src, RectTransform dst)
+    {
+        dst.anchoredPosition = src.anchoredPosition;
+        dst.sizeDelta = src.sizeDelta;
     }
 
     void PlayOpen()
