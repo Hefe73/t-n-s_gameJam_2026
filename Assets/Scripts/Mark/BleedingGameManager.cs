@@ -31,7 +31,7 @@ public class BleedingGameManager : MonoBehaviour
                 }
 
                 var gusher = hit.collider.gameObject.GetComponentInChildren<BloodGusher>();
-                if (woundID == gusher.id_)
+                if (gusher != null && woundID == gusher.id_)
                 {
                     Debug.Log("Correct wound!");
                     gusher.gameObject.SetActive(false);

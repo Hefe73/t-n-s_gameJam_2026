@@ -60,6 +60,7 @@ public class DoorsManagers : MonoBehaviour
             {
                 SceneManager.LoadScene(sceneName);
                 GameLoopManager.Instance.bIsOperating_ = false;
+                GameLoopManager.Instance.GAS = 100.0f;
             }
 
             
