@@ -18,9 +18,14 @@ public class DoorsManagers : MonoBehaviour
             CameraManager cam = CameraManager.Instance;
             cam.isFollowingPlayer = true;
             if (imLobby)
+            {
                 SceneManager.LoadScene(GameLoopManager.Instance.RoomsNameList[GameLoopManager.Instance.patientsHealed]);
+            }
             else
+            {
                 SceneManager.LoadScene(sceneName);
+            }
+
         }
     }
 
@@ -43,9 +48,19 @@ public class DoorsManagers : MonoBehaviour
             CameraManager cam = CameraManager.Instance;
             cam.isFollowingPlayer = true;
             if (imLobby)
+            {
                 SceneManager.LoadScene(GameLoopManager.Instance.RoomsNameList[GameLoopManager.Instance.patientsHealed]);
+                if (GameLoopManager.Instance != null)
+                {
+                    GameLoopManager.Instance.bIsOperating_ = true;
+                }
+            }
             else
+            {
                 SceneManager.LoadScene(sceneName);
+                GameLoopManager.Instance.bIsOperating_ = false;
+            }
+
             
         }
     }
