@@ -2522,6 +2522,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0c0b88a2b7bf0f1428576233f95d9ddc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1942889459}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0c0b88a2b7bf0f1428576233f95d9ddc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1942889461}
   m_SourcePrefab: {fileID: 100100000, guid: 0c0b88a2b7bf0f1428576233f95d9ddc, type: 3}
 --- !u!1 &863154068
 GameObject:
@@ -5760,6 +5763,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Interaction
   pressE: {fileID: 101052163}
+--- !u!114 &1942889461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942889455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b13e0362e7f74a45966c4bb1ae372d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerRicolin
+  minigameScenes:
+  - Minijuego8
+  - Syringe_N12
+  endScene: OperationRoom3
+  sequenceRunning: 0
 --- !u!1 &2010874973
 GameObject:
   m_ObjectHideFlags: 0

@@ -77,6 +77,7 @@ public class QTESlider : MonoBehaviour
         {
             Debug.Log("SUCCESS");
             syringeSfx.PlayOneShot(syringeSfx.clip);
+            MinigameManagerRicolin.Instance.MinigameFinished(2.0f);
             //uiSoundPlayer.PlaySoundWin();
         }
         else

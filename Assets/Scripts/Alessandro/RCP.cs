@@ -105,6 +105,7 @@ public class RCP : MonoBehaviour
         isGameActive = false;
         QTEInstructions.text = "¡Ganaste!";
         timerText.text = "";
+        MinigameManagerLaFalsa.Instance.MinigameFinished(3.0f);
         Debug.Log("¡Has completado todos los QTEs con éxito!");
     }
     

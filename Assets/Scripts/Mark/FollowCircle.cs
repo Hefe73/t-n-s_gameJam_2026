@@ -72,6 +72,7 @@ public class FollowCircle : MonoBehaviour
                 bIsFinished = true;
                 steroscopeSfx.Stop();
                 uiSoundPlayer.PlaySoundWin();
+                MinigameManagerLaFalsa.Instance.MinigameFinished(2.0f);
             }
         }
         else

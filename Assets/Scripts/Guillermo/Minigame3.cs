@@ -95,7 +95,7 @@ public class Minigame3 : MonoBehaviour
         {
             uiSoundplayer.PlaySoundWin();
         }
-         MinigameManager.Instance.MinigameFinished(2.0f);
+         MinigameManagerXoxo.Instance.MinigameFinished(2.0f);
         
     }
 

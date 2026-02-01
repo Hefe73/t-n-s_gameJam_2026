@@ -86,6 +86,7 @@ public class OxygenMinigame : MonoBehaviour
         valveOpen = false;
         uiSoundPlayer.PlaySoundWin();
         Debug.Log("Oxigeno administrado correctamente");
+        MinigameManagerLaFalsa.Instance.MinigameFinished(2.0f);
     }
 
     void Fail()

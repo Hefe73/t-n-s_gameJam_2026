@@ -2,15 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MinigameManager : MonoBehaviour
+public class MinigameManagerXoxo : MonoBehaviour
 {
-    public static MinigameManager Instance;
+    public static MinigameManagerXoxo Instance;
 
-    [Header("Scenes")] public List<string> minigameScenes;
+    [Header("Scenes")]
+    public List<string> minigameScenes;
     public string endScene;
 
     int currentMinigameIndex = -1;
     public bool sequenceRunning = false;
+
+    NPC_Interaction npcInteraction;
+    MeshRenderer meshRenderer;
+    SphereCollider sphereCollider;
 
     void Awake()
     {
@@ -23,11 +28,30 @@ public class MinigameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Components on SAME object (or children)
+        npcInteraction = GetComponent<NPC_Interaction>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        sphereCollider = GetComponentInChildren<SphereCollider>();
+
+        if (npcInteraction == null)
+            Debug.LogWarning("NPC_Interaction missing on MinigameManagerXoxo object.");
+
+        if (meshRenderer == null)
+            Debug.LogWarning("MeshRenderer not found on MinigameManagerXoxo object.");
+
+        if (sphereCollider == null)
+            Debug.LogWarning("SphereCollider not found on MinigameManagerXoxo object.");
     }
 
     void Update()
     {
-        if (!sequenceRunning && Input.GetKeyDown(KeyCode.F))
+        if (sequenceRunning)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.E) &&
+            npcInteraction != null &&
+            npcInteraction.playerIsInArea)
         {
             StartMinigames();
         }
@@ -42,6 +66,8 @@ public class MinigameManager : MonoBehaviour
         }
 
         sequenceRunning = true;
+        SetNPCActive(false);
+
         currentMinigameIndex = -1;
         LoadNextMinigame();
     }
@@ -64,7 +90,9 @@ public class MinigameManager : MonoBehaviour
     void EndSequence()
     {
         Debug.Log("All minigames completed!");
+
         sequenceRunning = false;
+        SetNPCActive(true);
 
         if (!string.IsNullOrEmpty(endScene))
             SceneManager.LoadScene(endScene);
@@ -81,5 +109,16 @@ public class MinigameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         LoadNextMinigame();
+    }
+
+    // ---------------- HELPERS ----------------
+
+    void SetNPCActive(bool active)
+    {
+        if (meshRenderer != null)
+            meshRenderer.enabled = active;
+
+        if (sphereCollider != null)
+            sphereCollider.enabled = active;
     }
 }

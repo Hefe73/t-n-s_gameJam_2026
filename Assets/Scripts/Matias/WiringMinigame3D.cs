@@ -186,5 +186,6 @@ public class WiringMinigame3D : MonoBehaviour
         }
         uiSoundplayer.PlaySoundWin();
         Debug.Log("MINIGAME WIN!");
+        MinigameManagerRicolin.Instance.MinigameFinished(2.0f);
     }
 }

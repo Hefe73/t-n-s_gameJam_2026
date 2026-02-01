@@ -99,6 +99,7 @@ public class CleaningWound : MonoBehaviour
         {
             Debug.Log("Minijuego completado: todas las manchas limpias.");
             uiSoundplayer.PlaySoundWin();
+            MinigameManagerChoni.Instance.MinigameFinished(1.5f);
             enabled = false;
         }
     }

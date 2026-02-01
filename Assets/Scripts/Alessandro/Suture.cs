@@ -113,6 +113,7 @@ public class Suture : MonoBehaviour
         gameActive = false;
         timerText.text = "¡Sutura Completa!";
         uiSoundPlayer.PlaySoundWin();
+        MinigameManagerXoxo.Instance.MinigameFinished(2.0f);
     }
 
     private void OnTimeUp()

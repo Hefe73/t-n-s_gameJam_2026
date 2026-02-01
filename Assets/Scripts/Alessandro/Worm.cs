@@ -138,6 +138,7 @@ public class Worm : MonoBehaviour
         {
             uiSoundPlayer.PlaySoundWin();
             Debug.Log("¡Felicidades! Has ganado.");
+            MinigameManagerXoxo.Instance.MinigameFinished(2.0f);
         }
         else
         {

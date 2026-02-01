@@ -6,6 +6,8 @@ public class NPC_Interaction : MonoBehaviour
 {
 
     [SerializeField] private GameObject pressE;
+
+    public bool playerIsInArea = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,9 +22,11 @@ public class NPC_Interaction : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         pressE.SetActive(true);
+        playerIsInArea = true;
     }
 
     void OnTriggerExit(Collider other) {
         pressE.SetActive(false);
+        playerIsInArea = false;
     }
 }

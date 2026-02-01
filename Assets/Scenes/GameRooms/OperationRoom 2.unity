@@ -707,7 +707,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3363243270990578113, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3682632455453668337, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
       propertyPath: m_Name
@@ -3300,6 +3300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC_Interaction
   pressE: {fileID: 968775823}
+  playerIsInArea: 0
 --- !u!114 &896412691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3309,11 +3310,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 896412688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50ad104d262c1149a1efa7afc9e88b2, type: 3}
+  m_Script: {fileID: 11500000, guid: d84e28e09a888344497cd74b6248de50, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MinigameManager
+  m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerChoni
   minigameScenes:
-  - Minijuego3
+  - Minijuego2
+  - Desangrado_N7
   endScene: OperationRoom 2
   sequenceRunning: 0
 --- !u!1 &917245759
@@ -5238,7 +5240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1529649796
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -42,6 +42,7 @@ public class BleedingGameManager : MonoBehaviour
                     if (woundID >= 3)
                     {
                         uiSoundPlayer.PlaySoundWin();
+                        MinigameManagerChoni.Instance.MinigameFinished(1.5f);
                         Debug.Log("Game finished");
                     }
                 }
