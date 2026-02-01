@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class WiringMinigame3D : MonoBehaviour
 {
+    public AudioSource sfx;
+    public PlayUISound uiSoundplayer;
+    
     [Header("Scene refs")]
     public Camera cam;
     public Collider boardCollider;        
@@ -47,6 +50,9 @@ public class WiringMinigame3D : MonoBehaviour
         Debug.Log("Mouse down");
 
         Debug.Log("SOCKET HIT: " + socket.name);
+        
+        sfx.pitch = Random.Range(1f - 0.1f, 1f + 0.1f);
+        sfx.PlayOneShot(sfx.clip);
 
         _dragStartSocket = socket;
 
@@ -178,7 +184,7 @@ public class WiringMinigame3D : MonoBehaviour
             if (s.side == SocketSide.Left && !s.occupied)
                 return;
         }
-
+        uiSoundplayer.PlaySoundWin();
         Debug.Log("MINIGAME WIN!");
     }
 }

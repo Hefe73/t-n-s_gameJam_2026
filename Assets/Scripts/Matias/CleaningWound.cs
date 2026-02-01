@@ -8,7 +8,10 @@ public class CleaningWound : MonoBehaviour
     public Camera cam;
     public Collider targetCollider;     
     public Transform cottonVisual; 
-
+    
+    public AudioSource sfx;
+    public PlayUISound uiSoundplayer;
+    
     [Header("Gameplay")]
     [Range(1, 30)] public int stainCount = 8;
     [Range(0.01f, 0.25f)] public float stainRadiusUV = 0.06f;
@@ -95,6 +98,7 @@ public class CleaningWound : MonoBehaviour
         if (AllClean())
         {
             Debug.Log("Minijuego completado: todas las manchas limpias.");
+            uiSoundplayer.PlaySoundWin();
             enabled = false;
         }
     }
@@ -135,7 +139,9 @@ public class CleaningWound : MonoBehaviour
                 {
                     // Opción A: ocultar (más barato y reversible)
                     s.visual.SetActive(false);
-
+                    
+                    sfx.PlayOneShot(sfx.clip);
+                    
                     // Opción B: destruir (definitivo)
                     // Destroy(s.visual);
                     // s.visual = null;
