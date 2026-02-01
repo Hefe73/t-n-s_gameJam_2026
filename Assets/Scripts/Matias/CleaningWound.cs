@@ -129,19 +129,32 @@ public class CleaningWound : MonoBehaviour
             {
                 s.passes++;
                 if (s.passes > passesRequired) s.passes = passesRequired;
+
+                // ✅ Si ya quedó limpia, ocultamos/eliminamos el quad visual
+                if (s.IsClean(passesRequired) && s.visual != null)
+                {
+                    // Opción A: ocultar (más barato y reversible)
+                    s.visual.SetActive(false);
+
+                    // Opción B: destruir (definitivo)
+                    // Destroy(s.visual);
+                    // s.visual = null;
+                }
             }
 
             s.wasInside = inside;
         }
     }
 
+
     bool AllClean()
     {
         foreach (var s in stains)
             if (!s.IsClean(passesRequired)) return false;
-        OnDisable();
+
         return true;
     }
+
 
     void OnDrawGizmosSelected()
     {
