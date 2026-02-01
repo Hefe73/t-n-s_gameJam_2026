@@ -39,20 +39,38 @@ public class Minigame3 : MonoBehaviour
     InstrumentCursor instrumentCursor;
     bool hasInstrumentCursor = false;
 
+    public SpriteRenderer cut1;
+    public SpriteRenderer cut2;
+    private Sprite oldCutSpr;
+    public Sprite newCutSpr;
+    private bool cut1Replaced = false;
+    private bool cut2Replaced = false;
+
 
     void Start()
     {
         BuildPath();
 
+        if (cut1 && cut2)
+            oldCutSpr = cut1.sprite;
+
+        cut1Replaced = false;
+        cut2Replaced = false;
+
         instrumentCursor = FindFirstObjectByType<InstrumentCursor>();
         hasInstrumentCursor = instrumentCursor != null;
-
-        if (hasInstrumentCursor)
-            Debug.Log("InstrumentCursor detected in scene.");
-        else
-            Debug.Log("No InstrumentCursor detected, ignoring instrument requirement.");
     }
 
+
+    void replaceSpriteRendererNew(SpriteRenderer spriteRenderer)
+    {
+        spriteRenderer.sprite = newCutSpr;
+    }
+
+    void replaceSpriteRendererOld(SpriteRenderer spriteRenderer)
+    {
+        spriteRenderer.sprite = oldCutSpr;
+    }
 
     void BuildPath()
     {
@@ -136,13 +154,17 @@ public class Minigame3 : MonoBehaviour
         progress = 0;
         hasLastMousePos = false;
         lastcutInterval = 0;
-        if (uiSoundplayer)
-        {
-            uiSoundplayer.PlaySoundLoose();
-        }
 
-        //ClearDebugSpheres();
+        cut1Replaced = false;
+        cut2Replaced = false;
+
+        if (uiSoundplayer)
+            uiSoundplayer.PlaySoundLoose();
+
+        replaceSpriteRendererOld(cut1);
+        replaceSpriteRendererOld(cut2);
     }
+
 
     void Win()
     {
@@ -265,19 +287,28 @@ public class Minigame3 : MonoBehaviour
         if (progress < pathPoints.Count &&
             Vector3.Distance(mouseWorld, pathPoints[progress]) <= errorFreedom)
         {
-            // If InstrumentCursor exists, require an instrument
+            bool canAdvance = true;
+
             if (hasInstrumentCursor)
+                canAdvance = instrumentCursor.currentInstrument != null;
+
+            if (canAdvance)
             {
-                if (instrumentCursor.currentInstrument != null)
-                {
-                    progress++;
-                }
-                // else: instrument missing → do NOT advance
-            }
-            else
-            {
-                // No InstrumentCursor in scene → always allow
                 progress++;
+
+                // 🔹 FIRST POINT reached
+                if (progress > pathPoints.Count/2 && !cut1Replaced)
+                {
+                    replaceSpriteRendererNew(cut1);
+                    cut1Replaced = true;
+                }
+
+                // 🔹 END reached
+                if (progress >= pathPoints.Count && !cut2Replaced)
+                {
+                    replaceSpriteRendererNew(cut2);
+                    cut2Replaced = true;
+                }
             }
         }
 
