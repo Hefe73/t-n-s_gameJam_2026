@@ -18,6 +18,9 @@ public class FollowCircle : MonoBehaviour
     private bool bIsStarted;
     private CircleCollider2D cc_;
     
+    public AudioSource steroscopeSfx;
+    public PlayUISound uiSoundPlayer;
+    
     void Start()
     {
         PickNewDirection();
@@ -37,6 +40,7 @@ public class FollowCircle : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= timeToStart)
             {
+               steroscopeSfx.PlayOneShot(steroscopeSfx.clip);
                 bIsStarted = true;
                 timer = 0.0f;
             }
@@ -66,12 +70,16 @@ public class FollowCircle : MonoBehaviour
             {
                 Debug.Log("Game finished!");
                 bIsFinished = true;
+                steroscopeSfx.Stop();
+                uiSoundPlayer.PlaySoundWin();
             }
         }
         else
         {
             Debug.Log("Game Lost");
+            uiSoundPlayer.PlaySoundLoose();
             bIsFinished = true;
+            steroscopeSfx.Stop();
         }
     }
 

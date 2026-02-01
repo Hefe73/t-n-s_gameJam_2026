@@ -7,9 +7,8 @@ public class Minigame3 : MonoBehaviour
     public float errorFreedom = 0.5f;
     public float planeZ = 10f;
     public bool won = false;
-    
-    [Header("Speed Requirement")]
-    public bool requireMinimumSpeed = false;
+
+    [Header("Speed Requirement")] public bool requireMinimumSpeed = false;
     public float minimumSpeed = 1.0f; // world units per second
 
     private List<Vector3> pathPoints = new List<Vector3>();
@@ -19,6 +18,12 @@ public class Minigame3 : MonoBehaviour
 
     private Vector3 lastMouseWorldPos;
     private bool hasLastMousePos = false;
+
+    public AudioSource cut_sound;
+    public PlayUISound uiSoundplayer;
+
+    public int soundCutIntervals = 4;
+    private int lastcutInterval = 0;
 
     void Start()
     {
@@ -73,6 +78,11 @@ public class Minigame3 : MonoBehaviour
         started = false;
         progress = 0;
         hasLastMousePos = false;
+        lastcutInterval = 0;
+        if (uiSoundplayer)
+        {
+            uiSoundplayer.PlaySoundLoose();
+        }
     }
 
     void Win()
@@ -81,6 +91,11 @@ public class Minigame3 : MonoBehaviour
         started = false;
         progress = 0;
         hasLastMousePos = false;
+        if (uiSoundplayer)
+        {
+            uiSoundplayer.PlaySoundWin();
+        }
+        
     }
 
     void Update()
@@ -101,6 +116,14 @@ public class Minigame3 : MonoBehaviour
                 Win();
             else
                 Lose();
+        }
+
+        if (progress - lastcutInterval > soundCutIntervals)
+        {
+            lastcutInterval = progress;
+            cut_sound.volume = Random.Range(0.55f, 0.8f);
+        cut_sound.pitch = Random.Range(1f - 0.2f, 1f + 0.2f);
+        cut_sound.PlayOneShot(cut_sound.clip);
         }
 
         if (!started || !Input.GetMouseButton(1))

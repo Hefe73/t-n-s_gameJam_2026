@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class QTESlider : MonoBehaviour
 {
-    [Header("References")]
-    public SpriteRenderer barRenderer;
+    [Header("References")] public SpriteRenderer barRenderer;
     public SpriteRenderer winZoneRenderer;
 
-    [Header("Movement")]
-    public float speed = 2f;
+    [Header("Movement")] public float speed = 2f;
 
     private float direction = 1f;
 
@@ -19,11 +17,15 @@ public class QTESlider : MonoBehaviour
     private float minX;
     private float maxX;
 
+    public AudioSource syringeSfx;
+    public PlayUISound uiSoundPlayer;
+
+
     void Start()
     {
-        barHalfWidth     = barRenderer.sprite.bounds.extents.x * barRenderer.transform.lossyScale.x;
+        barHalfWidth = barRenderer.sprite.bounds.extents.x * barRenderer.transform.lossyScale.x;
         pointerHalfWidth = GetComponent<SpriteRenderer>().sprite.bounds.extents.x * transform.lossyScale.x;
-        winHalfWidth     = winZoneRenderer.sprite.bounds.extents.x * winZoneRenderer.transform.lossyScale.x;
+        winHalfWidth = winZoneRenderer.sprite.bounds.extents.x * winZoneRenderer.transform.lossyScale.x;
 
         minX = barRenderer.transform.position.x - barHalfWidth + pointerHalfWidth;
         maxX = barRenderer.transform.position.x + barHalfWidth - pointerHalfWidth;
@@ -66,14 +68,21 @@ public class QTESlider : MonoBehaviour
             return;
 
         float pointerX = transform.position.x;
-        float winX     = winZoneRenderer.transform.position.x;
+        float winX = winZoneRenderer.transform.position.x;
 
         float winMin = winX - winHalfWidth;
         float winMax = winX + winHalfWidth;
 
         if (pointerX >= winMin && pointerX <= winMax)
+        {
             Debug.Log("SUCCESS");
+            syringeSfx.PlayOneShot(syringeSfx.clip);
+            //uiSoundPlayer.PlaySoundWin();
+        }
         else
+        {
             Debug.Log("FAIL");
+            uiSoundPlayer.PlaySoundLoose();
+        }
     }
 }

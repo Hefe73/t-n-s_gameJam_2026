@@ -15,6 +15,9 @@ public class Worm : MonoBehaviour
     private float timer;
     private Camera cam;
 
+        public AudioSource wormOutSfx;
+    public PlayUISound uiSoundPlayer;
+    
     void Start()
     {
         // Validar referencias iniciales
@@ -54,19 +57,22 @@ public class Worm : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = Mathf.Abs(cam.transform.position.z - transform.position.z);
-            Vector3 worldPos = cam.ScreenToWorldPoint(mousePos);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject.CompareTag("Worm"))
+            if (Physics.Raycast(ray, out hit))
             {
-                Destroy(hit.collider.gameObject);
-                wormsKilled++;
-                wormsAlive--;
-
-                CheckGameStatus();
+                if (hit.collider.gameObject.CompareTag("Worm"))
+                {
+                    Destroy(hit.collider.gameObject);
+                    wormsKilled++;
+                    wormsAlive--;
+                    wormOutSfx.pitch = Random.Range(1f - 0.1f, 1f + 0.1f);
+                    wormOutSfx.PlayOneShot(wormOutSfx.clip);
+                    CheckGameStatus();
+                }
             }
+            
         }
     }
 
@@ -79,10 +85,12 @@ public class Worm : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPos = GetRandomSpawnPosition();
-        GameObject newWorm = Instantiate(wormPrefab, spawnPos, Quaternion.identity);
-
+        var spawnPos = GetRandomSpawnPosition();
+        var newPos = new Vector3(spawnPos.position.x, spawnPos.position.y + 0.1f, spawnPos.position.z);
+        GameObject newWorm = Instantiate(wormPrefab, newPos, spawnPos.rotation);
+        newWorm.layer = 6;
         newWorm.tag = "Worm";
+        
         var sr = newWorm.GetComponent<SpriteRenderer>() ?? newWorm.GetComponentInChildren<SpriteRenderer>();
         if (sr != null) sr.sprite = wormImage;
 
@@ -91,18 +99,17 @@ public class Worm : MonoBehaviour
         wormsAlive++;
     }
 
-    Vector3 GetRandomSpawnPosition()
+    Transform GetRandomSpawnPosition()
     {
         int randomIndex = Random.Range(0, points.Length);
         //Vector3 offset = new Vector3(0.5f, 0.5f, 0f);
-        return points[randomIndex].position; // + offset;
+        return points[randomIndex]; // + offset;
     }
 
     void OnWormMissed()
     {
         wormsAlive--;
         wormsMissed++;
-
         CheckGameStatus();
     }
 
@@ -110,8 +117,8 @@ public class Worm : MonoBehaviour
     {
         if (wormsKilled == maxWorms)
         {
-            Debug.Log("¡Has ganado!");
             EndGame(true);
+            uiSoundPlayer.PlaySoundWin();
         }
         else if (wormsMissed + wormsAlive == maxWorms)
         {
@@ -129,10 +136,12 @@ public class Worm : MonoBehaviour
     {
         if (hasWon)
         {
+            uiSoundPlayer.PlaySoundWin();
             Debug.Log("¡Felicidades! Has ganado.");
         }
         else
         {
+            uiSoundPlayer.PlaySoundLoose();
             Debug.Log("¡Perdiste!");
         }
     }
