@@ -3313,11 +3313,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84e28e09a888344497cd74b6248de50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerChoni
+  isHealed: 0
   minigameScenes:
   - Minijuego2
   - Desangrado_N7
   endScene: OperationRoom 2
-  sequenceRunning: 0
+  sequenceRunning: 1
 --- !u!1 &917245759
 GameObject:
   m_ObjectHideFlags: 0

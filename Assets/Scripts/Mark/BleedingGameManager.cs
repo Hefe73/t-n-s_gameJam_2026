@@ -1,8 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BleedingGameManager : MonoBehaviour
+public class BleedingGameManager : MonoBehaviour, IMinigameStartable
 {
+    bool gameActive = false;
+
+    public void StartMinigame()
+    {
+        gameActive = true;
+    }
+
     [SerializeField] private int woundID;
 
     public AudioSource bandageSound;

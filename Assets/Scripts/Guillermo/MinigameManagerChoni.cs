@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class MinigameManagerChoni : MonoBehaviour
 {
     public static MinigameManagerChoni Instance;
-
+    public bool isHealed = false;
     [Header("Scenes")]
     public List<string> minigameScenes;
     public string endScene;
@@ -21,7 +21,7 @@ public class MinigameManagerChoni : MonoBehaviour
 
     void Awake()
     {
-        // Singleton
+        // Singleton per NPC instance
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -29,34 +29,41 @@ public class MinigameManagerChoni : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
-        // Components on SAME object (or children)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
         npcInteraction = GetComponent<NPC_Interaction>();
 
         meshRenderers = GetComponentsInChildren<MeshRenderer>(true);
         skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
         sphereCollider = GetComponentInChildren<SphereCollider>(true);
+    }
 
-        if (npcInteraction == null)
-            Debug.LogWarning("NPC_Interaction missing on MinigameManagerChoni object.");
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        if (meshRenderers.Length == 0 && skinnedMeshRenderers.Length == 0)
-            Debug.LogWarning("No MeshRenderer or SkinnedMeshRenderer found on NPC.");
+        if (Instance == this)
+            Instance = null;
+    }
 
-        if (sphereCollider == null)
-            Debug.LogWarning("SphereCollider not found on MinigameManagerChoni object.");
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 🔥 Kill AFTER sequence ends AND a new scene loads
+        if (!sequenceRunning)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()
     {
-        if (sequenceRunning)
-            return;
 
         if (Input.GetKeyDown(KeyCode.E) &&
             npcInteraction != null &&
-            npcInteraction.playerIsInArea)
+            npcInteraction.playerIsInArea && !isHealed)
         {
+           
             StartMinigames();
         }
     }
@@ -70,6 +77,10 @@ public class MinigameManagerChoni : MonoBehaviour
         }
 
         sequenceRunning = true;
+
+        // 🔑 NOW it becomes persistent
+        DontDestroyOnLoad(gameObject);
+
         SetNPCActive(false);
 
         currentMinigameIndex = -1;
@@ -86,9 +97,7 @@ public class MinigameManagerChoni : MonoBehaviour
             return;
         }
 
-        string sceneName = minigameScenes[currentMinigameIndex];
-        Debug.Log("Loading minigame: " + sceneName);
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(minigameScenes[currentMinigameIndex]);
     }
 
     void EndSequence()
@@ -97,15 +106,15 @@ public class MinigameManagerChoni : MonoBehaviour
 
         sequenceRunning = false;
         SetNPCActive(true);
+        isHealed = true;
+        GameLoopManager.Instance.patientsHealed++;
 
         if (!string.IsNullOrEmpty(endScene))
             SceneManager.LoadScene(endScene);
     }
 
-    // CALLED BY MINIGAMES
     public void MinigameFinished(float delay)
     {
-        Debug.Log($"Minigame finished! Loading next in {delay} seconds.");
         StartCoroutine(LoadNextWithDelay(delay));
     }
 
@@ -115,22 +124,15 @@ public class MinigameManagerChoni : MonoBehaviour
         LoadNextMinigame();
     }
 
-    // ---------------- HELPERS ----------------
-
     void SetNPCActive(bool active)
     {
-        // Static meshes
         foreach (var r in meshRenderers)
-            if (r != null)
-                r.enabled = active;
+            if (r) r.enabled = active;
 
-        // Skinned meshes (characters)
         foreach (var r in skinnedMeshRenderers)
-            if (r != null)
-                r.enabled = active;
+            if (r) r.enabled = active;
 
-        // Interaction collider
-        if (sphereCollider != null)
+        if (sphereCollider)
             sphereCollider.enabled = active;
     }
 }

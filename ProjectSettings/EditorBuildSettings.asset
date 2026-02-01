@@ -62,6 +62,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestingFeatures/MiniGames/Minijuego5.unity
     guid: 336c8ea9ff3b1534c95f51eaf48dea4a
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/Minigame3.unity
+    guid: a8ffbbfe0d42aef4589fc655e153d738
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/Minigame7.unity
+    guid: 1e20afc938e1f07478a8a7b80e7c3530
+  - enabled: 1
+    path: Assets/Scenes/GameRooms/Minijuego10_test.unity
+    guid: 21ac12ffc414a4643b330a27abd7d090
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   m_UseUCBPForAssetBundles: 0

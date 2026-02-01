@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Suture : MonoBehaviour
 {
+    
+    
     public Transform[] suturePoints;
     public GameObject markerPrefab;
     public TextMeshPro timerText;
