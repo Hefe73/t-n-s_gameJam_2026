@@ -704,7 +704,7 @@ MonoBehaviour:
   - RCP
   - Folllow_N11
   endScene: OperationRoom1
-  sequenceRunning: 0
+  sequenceRunning: 1
 --- !u!1 &214716917
 GameObject:
   m_ObjectHideFlags: 0
