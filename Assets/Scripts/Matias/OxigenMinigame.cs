@@ -17,8 +17,11 @@ public class OxygenMinigame : MonoBehaviour
     public bool valveOpen = false;
     public bool finished = false;
 
+    //[SerializeField] private HudController hud;
+
     void Start()
     {
+        //hud.SetMinigameHUD(MinigameId.Oxygen);
         ResetGame();
         PositionTargetZone();
     }
