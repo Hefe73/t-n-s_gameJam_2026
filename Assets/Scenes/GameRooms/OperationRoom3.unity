@@ -2510,7 +2510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0c0b88a2b7bf0f1428576233f95d9ddc, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5780,11 +5780,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b13e0362e7f74a45966c4bb1ae372d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerRicolin
+  isHealed: 0
   minigameScenes:
   - Minijuego8
   - Syringe_N12
   endScene: OperationRoom3
-  sequenceRunning: 0
+  sequenceRunning: 1
 --- !u!1 &2010874973
 GameObject:
   m_ObjectHideFlags: 0

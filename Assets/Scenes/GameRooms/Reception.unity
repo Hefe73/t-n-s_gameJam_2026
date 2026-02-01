@@ -6260,10 +6260,10 @@ MonoBehaviour:
   patientsHealed: 0
   RoomsNameList:
   - OperationRoom1
-  - OperationRoom1 1
-  - OperationRoom1 2
+  - OperationRoom 2
   - OperationRoom3
   - OperationRoom4
+  - Reception
   GAS: 100
   decreaseSpeed: 4
   bIsOperating_: 0

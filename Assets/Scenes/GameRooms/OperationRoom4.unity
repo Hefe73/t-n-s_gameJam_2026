@@ -3580,12 +3580,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50ad104d262c1149a1efa7afc9e88b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerXoxo
+  isHealed: 0
   minigameScenes:
-  - Minijuego3
+  - Minigame3
   - Minigame1
   - suture
   endScene: OperationRoom4
-  sequenceRunning: 0
+  sequenceRunning: 1
 --- !u!1 &1159086991
 GameObject:
   m_ObjectHideFlags: 0
