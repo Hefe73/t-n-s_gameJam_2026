@@ -48,7 +48,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TestingFeatures/MiniGames/Minijuego8.unity
     guid: 284c0cc636c82674db82e6f7a47eea0b
   - enabled: 1
-    path: Assets/Scenes/TestingFeatures/MiniGames/RCP.unity
+    path: Assets/Scenes/GameRooms/RCP.unity
     guid: 6ce3f6bcdae6eed428ca37693f4c84e3
   - enabled: 1
     path: Assets/Scenes/TestingFeatures/MiniGames/suture.unity
