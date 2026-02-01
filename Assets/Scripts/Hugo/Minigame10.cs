@@ -12,8 +12,11 @@ public class Minigame10 : MonoBehaviour
     [SerializeField] private float safeZoneRadius = 1.0f; // radio de zona segura
     [SerializeField] private LayerMask draggableLayer = ~0; // por defecto todo; ajusta en inspector
     [SerializeField] private float returnDuration = 0.25f; // tiempo para volver a la pos original
+    [SerializeField] private float moveToSafeDuration = 0.5f; // tiempo para moverse al centro de la zona segura
+    [SerializeField] private bool snapToCenterOnSafe = false; // si true, al llegar "snapea" exactamente al centro
 
     private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
+    private HashSet<GameObject> securedObjects = new HashSet<GameObject>(); // objetos ya asegurados (no se pueden agarrar)
 
     // estado del arrastre
     private GameObject grabbedObject = null;
@@ -25,7 +28,7 @@ public class Minigame10 : MonoBehaviour
         int numR = Random.Range(4, 8); // 4..7
         for (int i = 0; i < numR; i++)
         {
-            GameObject go = Instantiate(boneBreak_pb, spawnPoints[i].position, Quaternion.Euler(-0, 0, 0));
+            GameObject go = Instantiate(boneBreak_pb, spawnPoints[i].position, Quaternion.Euler(0, 0, 0));
             originalPositions[go] = go.transform.position;
         }
     }
@@ -59,7 +62,13 @@ public class Minigame10 : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, draggableLayer))
         {
-            grabbedObject = hit.collider.gameObject;
+            GameObject candidate = hit.collider.gameObject;
+
+            // Si ya está asegurado, no se puede coger
+            if (securedObjects.Contains(candidate)) return;
+
+            grabbedObject = candidate;
+
             // guardar pos original
             if (!originalPositions.ContainsKey(grabbedObject))
                 originalPositions[grabbedObject] = grabbedObject.transform.position;
@@ -94,6 +103,9 @@ public class Minigame10 : MonoBehaviour
 
     private void ReleaseGrabbedObject()
     {
+        if (grabbedObject == null)
+            return;
+
         // comprobar si dentro de zona segura
         bool insideSafe = false;
         if (safeZoneCenter != null)
@@ -102,26 +114,114 @@ public class Minigame10 : MonoBehaviour
             if (dist <= safeZoneRadius) insideSafe = true;
         }
 
-        // restaurar física si procede
+        // restaurar física si procede (si no vamos a animar hacia la zona)
         Rigidbody rb = grabbedObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.isKinematic = false;
         }
 
-        if (!insideSafe)
+        if (insideSafe)
+        {
+            // Inicia movimiento hacia la zona segura
+            Vector3 target = snapToCenterOnSafe && safeZoneCenter != null ? safeZoneCenter.position : GetRandomPointNearSafeCenter();
+            // Marca como asegurado inmediatamente para que no pueda volver a agarrarse durante la animación
+            securedObjects.Add(grabbedObject);
+            // Desactivamos collider y hacemos kinematic para evitar interacciones físicas mientras se mueve
+            Collider col = grabbedObject.GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+            if (rb != null) rb.isKinematic = true;
+
+            StartCoroutine(MoveToSafeZone(grabbedObject, target, moveToSafeDuration));
+        }
+        else
         {
             // volver a la pos original suavemente
             Vector3 target = grabbedOriginalPos;
             StartCoroutine(ReturnToOriginal(grabbedObject, target, returnDuration));
         }
-        // si está dentro de la zona segura, lo dejamos donde está (puedes opcionalmente 'snapear' a safeZoneCenter)
 
         grabbedObject = null;
     }
 
+    private Vector3 GetRandomPointNearSafeCenter()
+    {
+        if (safeZoneCenter == null) return Vector3.zero;
+        // generamos un punto aleatorio pequeño alrededor del centro para que no todos apunten exactamente al mismo punto
+        Vector2 rnd = Random.insideUnitCircle * (safeZoneRadius * 0.5f);
+        Vector3 offset = new Vector3(rnd.x, 0f, rnd.y);
+        return safeZoneCenter.position + offset;
+    }
+
+    private IEnumerator MoveToSafeZone(GameObject obj, Vector3 targetPos, float duration)
+    {
+        if (obj == null)
+            yield break;
+
+        float t = 0f;
+        Vector3 start = obj.transform.position;
+
+        if (duration <= 0f)
+        {
+            obj.transform.position = targetPos;
+            FinalizeSafeObject(obj);
+            yield break;
+        }
+
+        // opcional: pequeña animación de rotación mientras se mueve
+        Quaternion startRot = obj.transform.rotation;
+        Quaternion endRot = Quaternion.LookRotation((safeZoneCenter != null ? (safeZoneCenter.position - start) : (Vector3.zero - start)).normalized, Vector3.up);
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float frac = Mathf.Clamp01(t / duration);
+            // ease out
+            float ease = 1f - Mathf.Pow(1f - frac, 3f);
+            if (obj != null)
+            {
+                obj.transform.position = Vector3.Lerp(start, targetPos, ease);
+                obj.transform.rotation = Quaternion.Slerp(startRot, endRot, ease);
+            }
+            yield return null;
+        }
+
+        if (obj != null)
+        {
+            obj.transform.position = targetPos;
+            FinalizeSafeObject(obj);
+        }
+    }
+
+    // Lo que ocurre cuando el objeto ya ha llegado a la zona segura:
+    // - opcionalmente parentearlo al safeZoneCenter (o dejarlo suelto)
+    // - desactivar colisionador (ya se hizo antes), dejar rb isKinematic
+    private void FinalizeSafeObject(GameObject obj)
+    {
+        if (obj == null) return;
+
+        // mantenerlo kinematic y sin collider (ya debería estar así)
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+        if (rb != null) rb.isKinematic = true;
+
+        Collider col = obj.GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+
+        // parent al safe zone (opcional para organizar jerarquía)
+        if (safeZoneCenter != null)
+        {
+            obj.transform.SetParent(safeZoneCenter, true);
+        }
+
+        // aquí podrías reproducir un sonido, incrementer contador de piezas aseguradas, o destruir el objeto
+        // Destroy(obj); // o StartCoroutine(DelayedDestroy(obj, 1f));
+    }
+
     private IEnumerator ReturnToOriginal(GameObject obj, Vector3 targetPos, float duration)
     {
+        if (obj == null)
+            yield break;
+
         float t = 0f;
         Vector3 start = obj.transform.position;
         if (duration <= 0f)
@@ -137,7 +237,7 @@ public class Minigame10 : MonoBehaviour
             obj.transform.position = Vector3.Lerp(start, targetPos, frac);
             yield return null;
         }
-        obj.transform.position = targetPos;
+        if (obj != null) obj.transform.position = targetPos;
     }
 
     // Visualización en editor de la zona segura
