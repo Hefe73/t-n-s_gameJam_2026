@@ -2,31 +2,36 @@ using UnityEngine;
 
 public class FollowCircle : MonoBehaviour
 {
-
     public float speed = 3f;
     public float directionChangeInterval = 1.5f;
-    
-    public Vector2 minPosition; 
-    public Vector2 maxPosition; 
-    public float timeToWin;
-    public float timeToStart;
-    
-    private Vector2 moveDirection;
+
+    // Maximum distance from starting position (XZ plane)
+    public float maxDistanceFromStart = 3f;
+
+    public float timeToWin = 2f;
+    public float timeToStart = 1f;
+
+    private Vector3 moveDirection;
     private float timer;
     private float timeInside;
     private bool bIsFinished;
     private bool bIsStarted;
-    private CircleCollider2D cc_;
-    
+
+    private SphereCollider sc_;
+    private Vector3 startPosition;
+
     public AudioSource steroscopeSfx;
     public PlayUISound uiSoundPlayer;
-    
+
     void Start()
     {
+        sc_ = GetComponentInChildren<SphereCollider>();
+        startPosition = transform.position;
+
         PickNewDirection();
-        cc_ = gameObject.GetComponentInChildren<CircleCollider2D>();
-        timer = 0.0f;
-        timeInside = 0.0f;
+
+        timer = 0f;
+        timeInside = 0f;
         bIsStarted = false;
         bIsFinished = false;
     }
@@ -35,40 +40,59 @@ public class FollowCircle : MonoBehaviour
     {
         if (bIsFinished) return;
 
+        // Delay before start
         if (!bIsStarted)
         {
             timer += Time.deltaTime;
             if (timer >= timeToStart)
             {
-               steroscopeSfx.PlayOneShot(steroscopeSfx.clip);
+                steroscopeSfx.loop = true;
+                steroscopeSfx.Play();
                 bIsStarted = true;
-                timer = 0.0f;
+                timer = 0f;
             }
-
             return;
         }
-        
-        transform.Translate(moveDirection * speed * Time.deltaTime);
+
+        // Move in world space
+        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+
+        // Change direction occasionally
         timer += Time.deltaTime;
         if (timer >= directionChangeInterval)
         {
             PickNewDirection();
             timer = 0f;
         }
-        KeepInsideScreen();
-        
-        Vector3 mouseScreenPos = Input.mousePosition;
-        mouseScreenPos.z = Mathf.Abs(
-            Camera.main.transform.position.z - transform.position.z
-        );
-        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
 
-        if (cc_.OverlapPoint(mouseWorldPos))
+        KeepInsideRadius();
+
+        // Mouse → world (correct depth)
+        Camera cam = Camera.main;
+        float depth = Vector3.Dot(
+            sc_.transform.position - cam.transform.position,
+            cam.transform.forward
+        );
+
+        Vector3 mouseScreenPos = Input.mousePosition;
+        mouseScreenPos.z = depth;
+        Vector3 mouseWorldPos = cam.ScreenToWorldPoint(mouseScreenPos);
+
+        // Sphere world data
+        Vector3 center = sc_.transform.TransformPoint(sc_.center);
+        float radius = sc_.radius * Mathf.Max(
+            sc_.transform.lossyScale.x,
+            sc_.transform.lossyScale.y,
+            sc_.transform.lossyScale.z
+        );
+
+        // Detection
+        if (Vector3.Distance(mouseWorldPos, center) <= radius)
         {
             timeInside += Time.deltaTime;
+
             if (timeInside >= timeToWin)
             {
-                Debug.Log("Game finished!");
                 bIsFinished = true;
                 steroscopeSfx.Stop();
                 uiSoundPlayer.PlaySoundWin();
@@ -77,32 +101,31 @@ public class FollowCircle : MonoBehaviour
         }
         else
         {
-            Debug.Log("Game Lost");
-            uiSoundPlayer.PlaySoundLoose();
             bIsFinished = true;
-            steroscopeSfx.Stop();
+            Debug.Log("You lost");
         }
     }
 
     void PickNewDirection()
     {
-        moveDirection = Vector2.Lerp(
-            moveDirection,
-            Random.insideUnitCircle.normalized,
-            0.3f
-        ).normalized;
-
+        Vector2 dir2D = Random.insideUnitCircle.normalized;
+        moveDirection = new Vector3(dir2D.x, 0f, dir2D.y);
     }
 
-    void KeepInsideScreen()
+    void KeepInsideRadius()
     {
-        Vector3 pos = transform.position;
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(pos);
+        Vector3 offset = transform.position - startPosition;
 
-        if (pos.x < minPosition.x || pos.x > maxPosition.x)
-            moveDirection.x *= -1;
+        // Ignore Y (movement happens in XZ)
+        offset.y = 0f;
 
-        if (pos.y < minPosition.y || pos.y > maxPosition.y)
-            moveDirection.y *= -1;
+        if (offset.magnitude > maxDistanceFromStart)
+        {
+            // Push back inside + reflect direction
+            Vector3 normal = offset.normalized;
+            moveDirection = Vector3.Reflect(moveDirection, normal).normalized;
+
+            transform.position = startPosition + normal * maxDistanceFromStart;
+        }
     }
 }
