@@ -4,17 +4,17 @@ using UnityEngine.UI;
 
 public class Suture : MonoBehaviour
 {
-    public Transform[] suturePoints; // Puntos de sutura en 3D
-    public GameObject markerPrefab;  // Prefab del sprite del marcador
-    public TextMeshPro timerText;           // Texto de UI para mostrar el tiempo restante
-    public float timeLimit = 10f;    // Tiempo máximo para completar el minijuego
+    public Transform[] suturePoints;
+    public GameObject markerPrefab;
+    public TextMeshPro timerText;
+    public float timeLimit = 10f;
 
-    private GameObject activeMarker; // Instancia actual del marcador
-    private bool[] isSutured;        // Registro de puntos suturados
-    private int currentPointIndex = 0; // Índice del punto de sutura actual
-    private LineRenderer lineRenderer; // Componente para dibujar las líneas de sutura
-    private float remainingTime;     // Tiempo restante del minijuego
-    private bool gameActive = true;  // Controla si el juego sigue activo
+    private GameObject activeMarker;
+    private bool[] isSutured;
+    private int currentPointIndex = 0;
+    private LineRenderer lineRenderer;
+    private float remainingTime;
+    private bool gameActive = true;
 
     private void Start()
     {
@@ -22,18 +22,16 @@ public class Suture : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 0;
 
-        remainingTime = timeLimit; // Inicializar el contador con el límite de tiempo
-        UpdateMarker(); // Mostrar el marcador sobre el primer punto
+        remainingTime = timeLimit;
+        UpdateMarker();
     }
 
     private void Update()
     {
         if (!gameActive) return;
-
-        // Actualizar el temporizador
+        
         UpdateTimer();
-
-        // Comprobar clic en un punto de sutura
+        
         if (Input.GetMouseButtonDown(0))
         {
             CheckSuturePointClick();
@@ -43,8 +41,7 @@ public class Suture : MonoBehaviour
     private void UpdateTimer()
     {
         remainingTime -= Time.deltaTime;
-
-        // Actualiza el texto del temporizador
+        
         timerText.text = "Tiempo Restante: " + Mathf.Ceil(remainingTime).ToString() + "s";
 
         if (remainingTime <= 0 && gameActive)
@@ -64,7 +61,7 @@ public class Suture : MonoBehaviour
         {
             Transform clickedPoint = hit.collider.transform;
 
-            if (clickedPoint == suturePoints[currentPointIndex]) // Verifica si es el punto correcto
+            if (clickedPoint == suturePoints[currentPointIndex])
             {
                 isSutured[currentPointIndex] = true;
                 lineRenderer.positionCount++;
