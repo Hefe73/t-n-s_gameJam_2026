@@ -116,7 +116,7 @@ public class RCP : MonoBehaviour
         if (Input.anyKeyDown && noops > 0)
         {
             noops--;
-            Hands.transform.position -= new Vector3(0f, 2.0f, 0f);
+            Hands.transform.position -= new Vector3(0f, 0.02f, 0f);
             noopReturnTimer = noopReturnDelay;
         }
         
@@ -129,7 +129,7 @@ public class RCP : MonoBehaviour
             else if (!Input.anyKey)
             {
                 noops++;
-                Hands.transform.position += new Vector3(0f, 2.0f, 0f);
+                Hands.transform.position += new Vector3(0f, 0.02f, 0f);
                 QTEInstructions.color = Color.white;
             }
         }
