@@ -3,6 +3,7 @@ using TMPro;
 
 public class RCP : MonoBehaviour
 {
+
     public TextMeshPro QTEInstructions;
     public int maxQTEs = 5;
     public GameObject Hands;
@@ -28,6 +29,7 @@ public class RCP : MonoBehaviour
 
     void Update()
     {
+  
         if (!isGameActive || !isQTEActive) return;
         
         MoveHands();

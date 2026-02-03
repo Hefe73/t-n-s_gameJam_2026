@@ -3681,7 +3681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1181580374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5782,8 +5782,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerRicolin
   isHealed: 0
   minigameScenes:
-  - Minijuego8
-  - Syringe_N12
+  - Minigame6
+  - Minigame8
   endScene: OperationRoom3
   sequenceRunning: 1
 --- !u!1 &2010874973
@@ -6154,7 +6154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3363243270990578113, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3682632455453668337, guid: 448411b5cef735e4dbbf70483e5f70fb, type: 3}
       propertyPath: m_Name

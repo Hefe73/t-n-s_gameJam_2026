@@ -3316,7 +3316,7 @@ MonoBehaviour:
   isHealed: 0
   minigameScenes:
   - Minijuego2
-  - Desangrado_N7
+  - Minigame7
   endScene: OperationRoom 2
   sequenceRunning: 1
 --- !u!1 &917245759

@@ -3619,7 +3619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1292384504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5170,6 +5170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1927316623}
   - component: {fileID: 1927316622}
+  - component: {fileID: 1927316624}
   m_Layer: 0
   m_Name: Minigame10Manager
   m_TagString: Untagged
@@ -5191,14 +5192,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Minigame10
   boneBreak_pb: {fileID: 5803387850080534541, guid: 7f8dc0fd76939df43acc3cf91d83e7a8, type: 3}
   spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1941466578}
+  - {fileID: 1063987607}
+  - {fileID: 374316839}
+  - {fileID: 1627241305}
+  - {fileID: 805071991}
   safeZoneCenter: {fileID: 1802366249}
   safeZoneRadius: 5
   draggableLayer:
@@ -5222,6 +5220,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1927316624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927316621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a578a1b8493a4024a8c8e2c9c08b076b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CountdownManager
 --- !u!1 &1941466577
 GameObject:
   m_ObjectHideFlags: 0

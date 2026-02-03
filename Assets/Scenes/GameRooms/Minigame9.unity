@@ -4244,6 +4244,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8440958805795921790, guid: 84bac51ba9c46374cb662873d9723ca6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1503107237}
     - targetCorrespondingSourceObject: {fileID: 1465990195107259152, guid: 84bac51ba9c46374cb662873d9723ca6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -4259,6 +4262,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 132181229290498416, guid: 84bac51ba9c46374cb662873d9723ca6, type: 3}
   m_PrefabInstance: {fileID: 1503107234}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1503107236 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8440958805795921790, guid: 84bac51ba9c46374cb662873d9723ca6, type: 3}
+  m_PrefabInstance: {fileID: 1503107234}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1503107237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503107236}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a578a1b8493a4024a8c8e2c9c08b076b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CountdownManager
 --- !u!1 &1656751663
 GameObject:
   m_ObjectHideFlags: 0

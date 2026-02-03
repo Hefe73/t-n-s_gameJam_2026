@@ -699,10 +699,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b3670f5f3ae544bacdfd6bb0e4db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerLaFalsa
+  isHealed: 0
   minigameScenes:
-  - Minijuego5
-  - RCP
-  - Folllow_N11
+  - Minigame9
+  - Minigame11
   endScene: OperationRoom1
   sequenceRunning: 1
 --- !u!1 &214716917

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Minigame10 : MonoBehaviour
 {
+    bool gameActive = false;
+
+    
     [SerializeField] private GameObject boneBreak_pb;
     [SerializeField] private Transform[] spawnPoints = new Transform[8];
 
@@ -35,6 +38,7 @@ public class Minigame10 : MonoBehaviour
 
     void Update()
     {
+        
         // Mouse down: intentar coger objeto bajo el cursor
         if (Input.GetMouseButtonDown(0))
         {
@@ -52,6 +56,8 @@ public class Minigame10 : MonoBehaviour
         {
             ReleaseGrabbedObject();
         }
+        
+        //if()
     }
 
     private void TryGrabObject()

@@ -24,7 +24,7 @@ public class MinigameManagerChoni : MonoBehaviour
         // Singleton per NPC instance
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             return;
         }
 

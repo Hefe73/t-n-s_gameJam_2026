@@ -569,7 +569,7 @@ MonoBehaviour:
   - Minijuego8
   - Syringe_N12
   endScene: OperationRoom3
-  sequenceRunning: 0
+  sequenceRunning: 1
 --- !u!135 &224807868
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2298,7 +2298,7 @@ MonoBehaviour:
   - {fileID: 327576747}
   - {fileID: 1537625419}
   - {fileID: 1263717044}
-  errorFreedom: 0.05
+  errorFreedom: 0.2
   planeZ: 0.75
   won: 0
   requireMinimumSpeed: 0

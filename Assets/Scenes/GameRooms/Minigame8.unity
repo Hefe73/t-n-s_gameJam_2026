@@ -478,7 +478,7 @@ MonoBehaviour:
   - Minijuego8
   - Syringe_N12
   endScene: OperationRoom3
-  sequenceRunning: 0
+  sequenceRunning: 1
 --- !u!135 &224807868
 SphereCollider:
   m_ObjectHideFlags: 0

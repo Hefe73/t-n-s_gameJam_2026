@@ -4,7 +4,7 @@ using System.Collections;
 
 public class CountdownManager : MonoBehaviour
 {
-    public TextMeshProUGUI countdownText;
+    /*public TextMeshProUGUI countdownText;
     public float stepDuration = 1f;
 
     void Start()
@@ -43,4 +43,5 @@ public class CountdownManager : MonoBehaviour
         else
             Debug.LogWarning("No IMinigameStartable found in scene!");
     }
+    */
 }

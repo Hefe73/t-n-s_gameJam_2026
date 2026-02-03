@@ -24,7 +24,7 @@ public class MinigameManagerLaFalsa : MonoBehaviour
         // Singleton per NPC instance
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             return;
         }
 
@@ -52,7 +52,7 @@ public class MinigameManagerLaFalsa : MonoBehaviour
         // 🔥 Kill AFTER sequence ends AND a new scene loads
         if (!sequenceRunning)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 

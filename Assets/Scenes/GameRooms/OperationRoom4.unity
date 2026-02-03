@@ -3582,9 +3582,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManagerXoxo
   isHealed: 0
   minigameScenes:
-  - Minigame3
   - Minigame1
-  - suture
+  - Minigame3
+  - Minigame4
   endScene: OperationRoom4
   sequenceRunning: 1
 --- !u!1 &1159086991

@@ -1,14 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BleedingGameManager : MonoBehaviour, IMinigameStartable
+public class BleedingGameManager : MonoBehaviour
 {
-    bool gameActive = false;
 
-    public void StartMinigame()
-    {
-        gameActive = true;
-    }
 
     [SerializeField] private int woundID;
 
@@ -24,6 +19,7 @@ public class BleedingGameManager : MonoBehaviour, IMinigameStartable
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
